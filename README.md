@@ -1,20 +1,25 @@
 # Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+Swagger-ts-client is a tool that generate TypeScript types and  http client from Swagger ([open api](https://www.openapis.org/)). The code generation using [Handlebar](http://handlebarsjs.com/) templates.
+
+The default template generates http clients based on the [SuperAgent](http://visionmedia.github.io/superagent/) library.
 
 # Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+npm 
+```
+$ npm install swagger-ts-client --save-dev
+```
+yarn 
+```
+$ yarn add swagger-ts-client --dev
+```
+# Configuration
+when run with out any arguments , swagger-ts-client looks for a config file named ```ts-client.config.js``` and loads settings from it.
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+# Build 
+Clone or download from git hub.
+```
+yarn
+yarn build
+```
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://www.visualstudio.com/en-us/docs/git/create-a-readme). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)

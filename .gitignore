@@ -57,7 +57,5 @@ typings/
 # dotenv environment variables file
 .env
 
-# build out put
-bin
-out
+# source map
 *.map
