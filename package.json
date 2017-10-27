@@ -1,0 +1,50 @@
+{
+  "name": "swagger-ts-client",
+  "version": "0.9.3",
+  "description": "A tool to generate typescript http clients and types from swagger definitions",
+  "main": "./bin/main.js",
+  "bin": "./bin/main.js",
+  "keywords": [
+    "swagger",
+    "typescript",
+    "codegen",
+    "code generator",
+    "types",
+    "template",
+    "handlebar",
+    "http client"    
+  ],
+  "scripts": {
+    "start": "node ./",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:dev": "tsc",
+    "build": "tsc --sourceMap false",
+    "build:lambdaParser": "pegjs -o ./src/lib/parsers/lambdaParser/parser.generated.js ./src/lib/parsers/lambdaParser/grammer.pegjs",
+    "build:typeParser": "pegjs -o ./src/lib/parsers/typeNameParser/parser.generated.js ./src/lib/parsers/typeNameParser/grammer.pegjs",
+    "build:parsers": "npm run build:lambdaParser && npm run build:typeParser",
+    "lint": "tslint --fix --project ./tsconfig.json --format verbose"
+  },
+  "author": "kjayasa <gitdev@jayk.me>",
+  "license": "ISC",
+  "dependencies": {
+    "change-case": "^3.0.1",
+    "command-line-args": "^4.0.7",
+    "commander": "^2.11.0",
+    "handlebars": "^4.0.10",
+    "mixin-deep": "^1.2.0",
+    "mkdirp": "^0.5.1",
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5",
+    "swagger-schema-official": "^2.0.0-bab6bed"
+  },
+  "devDependencies": {
+    "@types/handlebars": "^4.0.36",
+    "@types/node": "^8.0.21",
+    "@types/swagger-schema-official": "^2.0.5",
+    "pegjs": "^0.10.0",
+    "tslint": "^5.7.0",
+    "typescript": "^2.4.2"
+  },
+  "types":"./bin/main.d.ts",
+  "repository": "https://github.com/kjayasa/swagger-ts-client.git"
+}

@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+      "experimentalDecorators": true,
+      "allowJs": true,
+      "module": "commonjs",
+      "noImplicitAny": false,
+      "outDir": "./bin/",
+      "sourceMap": true,
+      "target": "es2016"
+    },
+    "exclude": [
+      "node_modules"
+    ],
+    "include": ["./src"]
+  }
