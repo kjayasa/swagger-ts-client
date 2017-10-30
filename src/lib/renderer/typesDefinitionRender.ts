@@ -11,17 +11,17 @@ export class TypesDefinitionRender extends AbstractRenderer<IType[]>{
     constructor(){
         super({templatePath: settings.type.templateFile});
     }
-    public gettypeAliasis(): Array<{alias: string, typeDefinition: string}>{
-       return Object.keys(settings.type.typeAliasis).map((alias) => {
+    public getTypeAliases(): Array<{alias: string, typeDefinition: string}>{
+       return Object.keys(settings.type.typeAliases).map((alias) => {
             return {
                 alias,
-                typeDefinition: settings.type.typeAliasis[alias] as string,
+                typeDefinition: settings.type.typeAliases[alias] as string,
             };
         });
     }
     protected getRenderContext(types: IType[]): {} {
         const declaredTypes = {
-            typeAliasis: this.gettypeAliasis(),
+            typeAliases: this.getTypeAliases(),
             generatedTypes: settings.type.generatedTypes,
             membersOptional: settings.type.membersOptional ? "?" : "",
             types,

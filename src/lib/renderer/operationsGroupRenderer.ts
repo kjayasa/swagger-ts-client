@@ -13,11 +13,11 @@ export class OperationsGroupRender extends AbstractRenderer<IOperationsGroup>{
     constructor(){
         super({templatePath: settings.operations.templateFile});
     }
-    public gettypeAliasis(): Array<{alias: string, typeDefinition: string}>{
-       return Object.keys(settings.type.typeAliasis).map((alias) => {
+    public getTypeAliases(): Array<{alias: string, typeDefinition: string}>{
+       return Object.keys(settings.type.typeAliases).map((alias) => {
             return {
                 alias,
-                typeDefinition: settings.type.typeAliasis[alias] as string,
+                typeDefinition: settings.type.typeAliases[alias] as string,
             };
         });
     }

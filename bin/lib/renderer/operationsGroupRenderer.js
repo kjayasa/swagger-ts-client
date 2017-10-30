@@ -7,11 +7,11 @@ class OperationsGroupRender extends renderer_1.AbstractRenderer {
     constructor() {
         super({ templatePath: settings_1.settings.operations.templateFile });
     }
-    gettypeAliasis() {
-        return Object.keys(settings_1.settings.type.typeAliasis).map((alias) => {
+    getTypeAliases() {
+        return Object.keys(settings_1.settings.type.typeAliases).map((alias) => {
             return {
                 alias,
-                typeDefinition: settings_1.settings.type.typeAliasis[alias],
+                typeDefinition: settings_1.settings.type.typeAliases[alias],
             };
         });
     }

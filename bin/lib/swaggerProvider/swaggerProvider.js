@@ -10,7 +10,7 @@ function getProvider() {
         return new fsSwaggerProvider_1.FsSwaggerProvider();
     }
     else {
-        throw new Error("specfy a swagger definetion source");
+        throw new Error("Provide a swagger definition source");
     }
 }
 exports.getProvider = getProvider;

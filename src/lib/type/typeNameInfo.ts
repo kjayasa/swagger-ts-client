@@ -4,20 +4,19 @@ import {settings} from "../settings";
 
 const typeRefRegx = /#(?:\/[^\/]+)+\/([^\/]+)/;
 
-const genericTypeNames = "TUKABCDEFGHIJLMNOPQRSVWXYZ".split("");
 type ReplacerFn = (substring: string, ...args: any[]) => string;
 
-function replaceAll(str: string, searchStr, replacememt: ReplacerFn|string){
+function replaceAll(str: string, searchStr, replacement: ReplacerFn|string){
     const searchRegx = new RegExp(searchStr.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), "g");
-    return str.replace(searchRegx, replacememt as any);
+    return str.replace(searchRegx, replacement as any);
 }
 
-function getTypeAliasis(): Array<{alias: string, typeDefinition: string}>{
-    if(settings.type.typeAliasis){
-        return Object.keys(settings.type.typeAliasis).map((alias) => {
+function getTypeAliases(): Array<{alias: string, typeDefinition: string}>{
+    if(settings.type.typeAliases){
+        return Object.keys(settings.type.typeAliases).map((alias) => {
             return {
                 alias,
-                typeDefinition: settings.type.typeAliasis[alias] as string,
+                typeDefinition: settings.type.typeAliases[alias] as string,
             };
         });
     }
@@ -72,7 +71,7 @@ export class TypeNameInfo{
     }
 
     constructor(private parsedResult: ITypeNameParserAst){
-        this.substituteAliasis();
+        this.substituteAliases();
         if (this.isGeneric){
             this.genericTypeArgsMap = new Map(this.parsedResult.genericParams.map((ta, i) => [ta, typeNameParser.parse(TypeNameInfo.genericTypeNames[i])] as [ITypeNameParserAst, ITypeNameParserAst]));
         }
@@ -172,9 +171,9 @@ export class TypeNameInfo{
         }
     }
 
-    private substituteAliasis(){
-        if(settings.type.typeAliasis){
-            getTypeAliasis().forEach((alias) => {
+    private substituteAliases(){
+        if(settings.type.typeAliases){
+            getTypeAliases().forEach((alias) => {
                 this.parsedResult.composingTypes.forEach((ct) => TypeNameInfo.substituteWithAlias(alias.alias, alias.typeDefinition, ct));
             });
         }

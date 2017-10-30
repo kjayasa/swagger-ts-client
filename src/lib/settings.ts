@@ -18,7 +18,9 @@ export interface ISettings{
     swaggerFile?: string;
     swaggerProvider?:ISwaggerProvider;
     type?: {
-        typeAliasis?: {},
+        typeAliases?: { 
+            [index: string]:string
+        },
         generatedTypes?: GeneratedType,
         membersOptional?: boolean,
         templateFile?: string,
@@ -39,17 +41,13 @@ export interface ISettings{
 
 export const settings: ISettings  ={
     type:{
-        typeAliasis:{
+        typeAliases:{
             "Int32":"number"
         },
         generatedTypes:"interface",
         membersOptional:true,
-        templateFile:path.join(__dirname,"..","..","templates","typeDefinetions.handlebars"),
+        templateFile:path.join(__dirname,"..","..","templates","typeDefinitions.handlebars"),
         outPutPath:path.join(process.cwd(),"serverTypes","serverTypes.ts"),
-        templateTag:[
-            `export type Nullable<T> = T;`,
-            `export type List<T> = Array<T>;`
-        ]
     },
     operations:{
         operationsGroupNameTransformFn:operationsGroupNameTransformFn,

@@ -13,6 +13,6 @@ export function getProvider():ISwaggerProvider{
     }else if(settings.swaggerFile){
         return new FsSwaggerProvider();
     }else{
-        throw new Error("specfy a swagger definetion source");
+        throw new Error("Provide a swagger definition source");
     }
 }

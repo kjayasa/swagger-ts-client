@@ -3,17 +3,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const parsers_1 = require("../parsers/parsers");
 const settings_1 = require("../settings");
 const typeRefRegx = /#(?:\/[^\/]+)+\/([^\/]+)/;
-const genericTypeNames = "TUKABCDEFGHIJLMNOPQRSVWXYZ".split("");
-function replaceAll(str, searchStr, replacememt) {
+function replaceAll(str, searchStr, replacement) {
     const searchRegx = new RegExp(searchStr.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), "g");
-    return str.replace(searchRegx, replacememt);
+    return str.replace(searchRegx, replacement);
 }
-function getTypeAliasis() {
-    if (settings_1.settings.type.typeAliasis) {
-        return Object.keys(settings_1.settings.type.typeAliasis).map((alias) => {
+function getTypeAliases() {
+    if (settings_1.settings.type.typeAliases) {
+        return Object.keys(settings_1.settings.type.typeAliases).map((alias) => {
             return {
                 alias,
-                typeDefinition: settings_1.settings.type.typeAliasis[alias],
+                typeDefinition: settings_1.settings.type.typeAliases[alias],
             };
         });
     }
@@ -24,7 +23,7 @@ class TypeNameInfo {
         //private parsedResult:ITypeNameParserAst=null;
         this.isInlineType = false;
         this.genericTypeArgsMap = null;
-        this.substituteAliasis();
+        this.substituteAliases();
         if (this.isGeneric) {
             this.genericTypeArgsMap = new Map(this.parsedResult.genericParams.map((ta, i) => [ta, parsers_1.typeNameParser.parse(TypeNameInfo.genericTypeNames[i])]));
         }
@@ -131,9 +130,9 @@ class TypeNameInfo {
             }
         }
     }
-    substituteAliasis() {
-        if (settings_1.settings.type.typeAliasis) {
-            getTypeAliasis().forEach((alias) => {
+    substituteAliases() {
+        if (settings_1.settings.type.typeAliases) {
+            getTypeAliases().forEach((alias) => {
                 this.parsedResult.composingTypes.forEach((ct) => TypeNameInfo.substituteWithAlias(alias.alias, alias.typeDefinition, ct));
             });
         }

@@ -13,12 +13,12 @@ class FsSwaggerProvider {
     provide(settings, logger) {
         return __awaiter(this, void 0, void 0, function* () {
             if (settings.swaggerFile) {
-                logger.info(`Reading swagger definetions from ${settings.swaggerFile}`);
+                logger.info(`Reading swagger definitions from ${settings.swaggerFile}`);
                 const data = yield fsUtil_1.readFile(settings.swaggerFile, "utf8");
                 return JSON.parse(data);
             }
             else {
-                throw new Error("Filename fetch swagger definetion is not specfied");
+                throw new Error("Filename to fetch swagger definition is not provided");
             }
         });
     }
