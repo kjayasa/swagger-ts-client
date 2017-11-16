@@ -1,4 +1,5 @@
-# Introduction 
+# swagger-ts-client [![Build Status](https://travis-ci.org/kjayasa/swagger-ts-client.svg?branch=master)](https://travis-ci.org/kjayasa/swagger-ts-client)
+
 Swagger-ts-client is a tool that generate TypeScript types and  http client from Swagger ([open api](https://www.openapis.org/)). The code generation is highly configurable through a configuration file. Refer [Configuration section](#Configuration) for more details.
 
 The generated code can completely controlled by using  [Handlebar](http://handlebarsjs.com/) templates.Refer template section for more section. The default template generates http clients based on the [SuperAgent](http://visionmedia.github.io/superagent/) library.
