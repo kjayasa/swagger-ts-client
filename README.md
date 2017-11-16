@@ -148,7 +148,7 @@ module.exports=settings;
    
    A Function when called with an operation schema, should return name of the operation should belong to. This name will be used as name of the method which would perform the http operation.
       
-    Default is , if the schema has tag and that taag is present in the operation ID , it will be replaced with the verb. Example
+    Default is , if the schema has tag and that tag is present in the operation ID , it will be replaced with the verb. Example
     
 
    The signature of the function is as follows.
@@ -172,6 +172,22 @@ module.exports=settings;
    Default is a function that returns ```operationGroup.ts```
 
 ## CLI
+Executing swagger-ts-client with out any options, it tries to load settings from ```./ts-client.config.js. ``` and generate code.
+
+The recommended way of using swagger-ts-client is by putting all the configuration in the config file, but some options are provided which will the configuration settings from the config file. Using these options it might be possible to run swagger-ts-client with out a config file.
+
+There are some options that can be used to change 
+
+| Option|                                               	| Explanation                            	|
+|----	|--------------------------------------------------	|------------------------------------------	|
+| -V 	| --version                                        	| output the version number                	|
+| -c 	| --config ./path/to/config.file.js               	| use the configuration file from the path 	|
+| -s 	| --swaggerFile ./path/to/swagger.doc.json        	| use swagger definition from the path     	|
+| -t 	| --typesOut ./path/to/generate/types.ts>          	| generate output types at the location    	|
+| -u 	| --url http://url.to.swaggerDef/swagger/v1/docs	| use url as swagger source                	|
+| -o 	| --operationsOut ./path/to/generate/operations/   	| generate operations at the location      	|
+| -h 	| --help                                           	| output usage information                 	|
+
 
 # Template
 
