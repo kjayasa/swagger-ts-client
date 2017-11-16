@@ -2,7 +2,7 @@ import * as changeCase from "change-case";
 import * as Swagger from "swagger-schema-official";
 import {IOperationsGroup} from "../operation/operationsBuilder";
 import {Type} from "./type";
-import {TypeNameInfo} from "./TypeNameInfo";
+import {TypeNameInfo} from "./typeNameInfo";
 import {logger} from "../logger";
 
 function isBodyParam(param: Swagger.Parameter | Swagger.BodyParameter): param is Swagger.BodyParameter {

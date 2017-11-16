@@ -4,10 +4,10 @@ import * as Swagger from "swagger-schema-official";
 import { createIfnotExists, createWriteStream } from "./fsUtil";
 import { OperationsBuilder } from "./operation/operationsBuilder";
 import { OperationsGroupRender } from "./renderer/operationsGroupRenderer";
-import { TypesDefinitionRender } from "./renderer/TypesDefinitionRender";
+import { TypesDefinitionRender } from "./renderer/typesDefinitionRender";
 import { ISettings, loadSettings, settings } from "./settings";
 import { TypeBuilder } from "./type/typeBuilder";
-import { getProvider } from "./SwaggerProvider/swaggerProvider"
+import { getProvider } from "./swaggerProvider/swaggerProvider"
 import {logger} from "./logger";
 export class TsFromSwagger {
     constructor(configFile: string = null, override: ISettings = {}) {
