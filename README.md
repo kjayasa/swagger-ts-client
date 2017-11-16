@@ -134,12 +134,42 @@ module.exports=settings;
 
    All configuration for Operations generation.
 * ```operations.operationsGroupNameTransformFn```
+   A Function when called with an operation schema, should return name of the group group that the operation should belong to. This name will be used as name of the generated class in which the the operation would me a method.
+
+   default is concatenation of Tag and "HttpSvc".
+
+   The signature of the function is as follows.
+   ```typescript
+   (operationName: string, httpVerb: HttpVerb , operation: Swagger.Operation) => string;
+   ```
+   ```HttpVerb``` can be any of the following ```"get"|"put"|"post"|"delete"|" options"|"head"|" patch"```
+
 * ```operations.operationsNameTransformFn```
+   
+   A Function when called with an operation schema, should return name of the operation should belong to. This name will be used as name of the method which would perform the http operation.
+      
+    Default is , if the schema has tag and that taag is present in the operation ID , it will be replaced with the verb. Example
+    
+
+   The signature of the function is as follows.
+   ```typescript
+   (operationName: string, httpVerb: HttpVerb , operation: Swagger.Operation) => string;
+   ```
+   ```HttpVerb``` can be any of the following ```"get"|"put"|"post"|"delete"|" options"|"head"|" patch"```
 * ```operations.ungroupedOperationsName```
+    
+  A string that will ne sued as the name of all un named operations
 * ```operations.templateFile```
+
+   Path to  [Handlebar](http://handlebarsjs.com/) template to be used for code generation. The default template generates Classes for each operation group using [Superagent](http://visionmedia.github.io/superagent/).
 * ```operations.outPutPath```
+
+   Path to write the the generated types file to. If the directory does not exist, it will be created. A file will be created for each operation group. Default is "./serverTypes/httpClients/
 * ```operations.outFileNameTransformFn```
-* ```operations.templateTag```
+
+   A Function when called with an operation group, should return name of file to which the operation group would be written into
+   
+   Default is a function that returns ```operationGroup.ts```
 
 ## CLI
 

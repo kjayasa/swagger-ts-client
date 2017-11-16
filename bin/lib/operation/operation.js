@@ -47,3 +47,4 @@ class Operation {
     }
 }
 exports.Operation = Operation;
+//# sourceMappingURL=operation.js.map
