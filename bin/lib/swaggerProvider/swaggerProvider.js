@@ -10,8 +10,7 @@ function getProvider() {
         return new fsSwaggerProvider_1.FsSwaggerProvider();
     }
     else {
-        throw new Error("Provide a swagger definition source");
+        throw new Error("Provide a swagger definition source.");
     }
 }
 exports.getProvider = getProvider;
-//# sourceMappingURL=swaggerProvider.js.map

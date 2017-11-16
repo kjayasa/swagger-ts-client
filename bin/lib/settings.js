@@ -62,4 +62,3 @@ function loadSettings(configFile = null, override = {}) {
     return exports.settings;
 }
 exports.loadSettings = loadSettings;
-//# sourceMappingURL=settings.js.map

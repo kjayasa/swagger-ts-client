@@ -1,4 +1,4 @@
-import { ISwaggerProvider }  from "./SwaggerProvider"
+import { ISwaggerProvider }  from "./swaggerProvider"
 import { ISettings } from "../settings";
 import * as Swagger from "swagger-schema-official";
 import { readFile } from "../fsUtil";
