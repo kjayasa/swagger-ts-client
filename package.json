@@ -45,6 +45,5 @@
     "tslint": "^5.7.0",
     "typescript": "^2.4.2"
   },
-  "types":"./bin/main.d.ts",
   "repository": "https://github.com/kjayasa/swagger-ts-client.git"
 }
