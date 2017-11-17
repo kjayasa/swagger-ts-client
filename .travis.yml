@@ -1,4 +1,12 @@
 language: node_js
 node_js:
- - "6.12"
-script: npm run build 
+- '6.12'
+script: npm run build
+deploy:
+  provider: npm
+  email: gitdev@jayk.me
+  api_key:
+    secure: WH0nipUOcMGtA0F9MGdU0+w2oDST2UgDxvg6X7JBd4mHvlAr5SsdZyzR8Mv0I1QeAuf84OVqAQzDe57ka3hc0IDdwers71oUY/pmqPGYUypwb1BLumCKQH0sXhjmySDOOixsj76rt4rOc9n3Gdz314apYQWUbfSR836qDK6p0ZfOKtuEfiyzFjazOidVOqi1WRmW+k7VE5CUlRO84bGqiOl4WKb68mmwzpGT59rw23vowK8B8Sk+XvmHBZYXG+UPwppg2AnSnrr5dG1F5UMnN0C9EnMo+xBVcXHZq8EyoJBUX9RMM88fGuBr3yUF5zWBCG0/LS5b7v7zSb6KTpLTMPO/SHtdHCUkaCQo1st57XRLhzDw6bMmYGK73aR35U4EmAI1sisVy8taBS7TQsAGHD6uPvJ/xI6V7/UUMLbZsviNmAKwAEnG8IJmed7CN/oAwSX3RFe6emHWx6rvUMZ/KLbdIXwmrPM9Z1kldHPQBE4kyp1DZLvqh5H+CUaPtk6TC72CRrVwVO09vKPNwGwIRCl30fp6D9ICsz6JP90Ckzs5m9QqMAzxxNseFS+snJNNEJ7rMHc16EENhquAwwpaKZjr+WbZAzNbKMvYcFrQ/UcdF4Pev1lhIFdXlnSdiam63OXfqNG5MGcIOJyjeseGh5F5pf8vzICA8LW9K2sohDo=
+  on:
+    tags: true
+    repo: kjayasa/swagger-ts-client
