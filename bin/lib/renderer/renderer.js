@@ -15,6 +15,12 @@ handlebars.registerHelper("joinList", helpers_1.joinListHelper);
 handlebars.registerHelper("filterList", helpers_1.filterListHelper);
 handlebars.registerHelper("some", helpers_1.someHelper);
 handlebars.registerHelper("changeCase", helpers_1.changeCaseHelper);
+function registerHandleBarsHelpers(settings) {
+    if (settings.templateHelpers) {
+        handlebars.registerHelper(settings.templateHelpers);
+    }
+}
+exports.registerHandleBarsHelpers = registerHandleBarsHelpers;
 class AbstractRenderer {
     constructor(options, renderHelpers) {
         if (!options || !(options.template || options.templatePath)) {
@@ -64,3 +70,4 @@ class AbstractRenderer {
     }
 }
 exports.AbstractRenderer = AbstractRenderer;
+//# sourceMappingURL=renderer.js.map

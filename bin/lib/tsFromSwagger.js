@@ -11,10 +11,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fsUtil_1 = require("./fsUtil");
 const operationsBuilder_1 = require("./operation/operationsBuilder");
 const operationsGroupRenderer_1 = require("./renderer/operationsGroupRenderer");
-const TypesDefinitionRender_1 = require("./renderer/TypesDefinitionRender");
+const typesDefinitionRender_1 = require("./renderer/typesDefinitionRender");
 const settings_1 = require("./settings");
 const typeBuilder_1 = require("./type/typeBuilder");
-const swaggerProvider_1 = require("./SwaggerProvider/swaggerProvider");
+const swaggerProvider_1 = require("./swaggerProvider/swaggerProvider");
 const logger_1 = require("./logger");
 class TsFromSwagger {
     constructor(configFile = null, override = {}) {
@@ -48,7 +48,7 @@ class TsFromSwagger {
     }
     renderTypes(typeManager) {
         return __awaiter(this, void 0, void 0, function* () {
-            const stream = fsUtil_1.createWriteStream(settings_1.settings.type.outPutPath), renderer = new TypesDefinitionRender_1.TypesDefinitionRender();
+            const stream = fsUtil_1.createWriteStream(settings_1.settings.type.outPutPath), renderer = new typesDefinitionRender_1.TypesDefinitionRender();
             logger_1.logger.info(`Writing Types to ${settings_1.settings.type.outPutPath}`);
             yield renderer.render(stream, typeManager.getAllTypes());
             stream.end();
@@ -68,3 +68,4 @@ class TsFromSwagger {
     }
 }
 exports.TsFromSwagger = TsFromSwagger;
+//# sourceMappingURL=tsFromSwagger.js.map

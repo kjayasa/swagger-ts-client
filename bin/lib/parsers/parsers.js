@@ -5,3 +5,4 @@ const lambdaParserGen = require("./lambdaParser/parser.generated");
 const typeNameParserGen = require("./typeNameParser/parser.generated");
 exports.lambdaParser = new parserWrapper_1.ParserWrapper(lambdaParserGen.parse);
 exports.typeNameParser = new parserWrapper_1.ParserWrapper(typeNameParserGen.parse);
+//# sourceMappingURL=parsers.js.map

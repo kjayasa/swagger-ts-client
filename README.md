@@ -45,6 +45,9 @@ The configuration file needs to export a configuration object. The configuration
     swaggerProvider?: {
         provide:Function
     };
+    templateHelpers?:{
+        [index: string]:IHandleBarHelper
+    };
     type?: {
         typeAliases?: { 
             [index: string]:string
@@ -87,7 +90,7 @@ module.exports=settings;
    The file to import Swagger definitions from. Expects to be JSON representation of swagger. YML is currently not supported.
 * ```swaggerProvider```
 
-   An instance of a swagger provider plugin to be used when swagger is not imported from file.
+   An instance of a swagger provider plugin to be used when swagger is not imported from file. 
 
    Example
   ```typescript
@@ -96,6 +99,33 @@ module.exports=settings;
     }
 
     module.exports=settings;
+   ``` 
+* ```templateHelpers```
+
+   A hash of functions with that are registered with the handlebar runtime as [handlebar helper](http://handlebarsjs.com/reference.html).
+
+   Example
+  ```typescript
+    templateHelpers : {
+        toUpper: function(context,...options) {
+            if (context && typeof(context) === "string"){
+                return context.toUpperCase();
+            }
+            else{
+                 return ""
+            }
+           
+        },
+        toLower: function(context,...options) {
+            if (context && typeof(context) === "string"){
+                return context.toLowerCase();
+            }
+            else{
+                 return ""
+            }
+           
+        }
+    }
    ``` 
 * ```type```
 

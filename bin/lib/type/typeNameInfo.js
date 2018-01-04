@@ -158,3 +158,4 @@ TypeNameInfo.primitiveTypesMapping = {
     "string+password": "string",
 };
 exports.TypeNameInfo = TypeNameInfo;
+//# sourceMappingURL=typeNameInfo.js.map

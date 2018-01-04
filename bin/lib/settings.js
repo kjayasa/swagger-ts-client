@@ -5,6 +5,7 @@ const deepMerge = require("mixin-deep");
 const path = require("path");
 const process = require("process");
 const logger_1 = require("./logger");
+const renderer_1 = require("./renderer/renderer");
 exports.settings = {
     type: {
         typeAliases: {
@@ -59,6 +60,8 @@ function loadSettings(configFile = null, override = {}) {
     if (override.swaggerProvider && exports.settings.swaggerFile) {
         exports.settings.swaggerFile = null;
     }
+    renderer_1.registerHandleBarsHelpers(exports.settings);
     return exports.settings;
 }
 exports.loadSettings = loadSettings;
+//# sourceMappingURL=settings.js.map

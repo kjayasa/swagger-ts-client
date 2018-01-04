@@ -5,6 +5,7 @@ import * as process from "process";
 import * as Swagger from "swagger-schema-official";
 import {ISwaggerProvider} from "./swaggerProvider/swaggerProvider";
 import {logger} from "./logger";
+import {registerHandleBarsHelpers} from "./renderer/renderer";
 
 export type HttpVerb= "get"|"put"|"post"|"delete"|" options"|"head"|" patch";
 
@@ -14,9 +15,14 @@ export type IOperationsTransformFn = (operationName: string, httpVerb: HttpVerb 
 
 export type IGroupFileNameTransformFn = (groupName: string) => string;
 
+export type IHandleBarHelper = (...any)=>string;
+
 export interface ISettings{
     swaggerFile?: string;
     swaggerProvider?:ISwaggerProvider;
+    templateHelpers?:{
+        [index: string]:IHandleBarHelper
+    };
     type?: {
         typeAliases?: { 
             [index: string]:string
@@ -98,6 +104,8 @@ export function loadSettings(configFile: string=null,override: ISettings={}){
     if(override.swaggerProvider && settings.swaggerFile){
         settings.swaggerFile=null;
     }
+
+    registerHandleBarsHelpers(settings);
 
     return settings;
 }
