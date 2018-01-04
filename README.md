@@ -12,7 +12,8 @@ Swagger-ts-client can import swagger definition from multiple sources using prov
 * full support for Generics. Infers generis from swagger types definition especially when  used with [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle), C# and .net.
 * can be configured to generate Interface or Classes
 * can import swagger definition from multiple sources using providers.Built in providers includes File system And Http providers.
-
+# Whats new
++ Added option to register custom HandleBars helpers vis settings.  
 # Getting Started
 Swagger-ts-client is written in typescript nad runs on NodeJS and is packed with NPM . You need NodeJS installed to install and run Swagger-ts-client.
 ## Installing
