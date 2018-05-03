@@ -6,4 +6,3 @@ var httpSwaggerProvider_1 = require("./swaggerProvider/httpSwaggerProvider");
 exports.HttpSwaggerProvider = httpSwaggerProvider_1.HttpSwaggerProvider;
 var logger_1 = require("./logger");
 exports.logger = logger_1.logger;
-//# sourceMappingURL=index.js.map
