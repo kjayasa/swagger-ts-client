@@ -14,3 +14,4 @@ function getProvider() {
     }
 }
 exports.getProvider = getProvider;
+//# sourceMappingURL=swaggerProvider.js.map

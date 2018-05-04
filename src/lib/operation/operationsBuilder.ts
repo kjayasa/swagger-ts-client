@@ -1,8 +1,8 @@
 import * as Swagger from "swagger-schema-official";
+import {logger} from "../logger";
 import {HttpVerb, settings} from "../settings";
 import {TypeBuilder} from "../type/typeBuilder";
 import {Operation} from "./operation";
-import {logger} from "../logger";
 export interface IOperationsGroup {
     operationsGroupName: string;
     operations: IOperation[];
@@ -21,7 +21,7 @@ export interface IOperationParam {
     paramDisplayName: string;
     paramType: string;
     inBody: boolean;
-    inPath:Boolean;
+    inPath: Boolean;
 }
 
 const httpVerbs = ["get", "put", "post", "delete", " options", "head", " patch"];
@@ -52,7 +52,7 @@ export class OperationsBuilder {
         private typeManager: TypeBuilder) {
         this.buildGroups();
     }
-     private getGroup(groupName: string): OperationsGroup{
+    private getGroup(groupName: string): OperationsGroup{
         if (this.opsGroups.has(groupName)){
            return this.opsGroups.get(groupName);
         }else{
@@ -64,7 +64,7 @@ export class OperationsBuilder {
     }
 
     public buildGroups(): void {
-        logger.info("Building Groups...")
+        logger.info("Building Groups...");
         for (const url in this.paths) {
 
             const swPath = this.paths[url];
@@ -82,7 +82,7 @@ export class OperationsBuilder {
     }
 
     public getAllGroups(){
-        return [...this.opsGroups.values()] as Array<IOperationsGroup>;
+        return [...this.opsGroups.values()] as IOperationsGroup[];
     }
 
 }

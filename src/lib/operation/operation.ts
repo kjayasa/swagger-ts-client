@@ -46,7 +46,7 @@ export class Operation implements IOperation {
             paramDisplayName: param.name.replace(nonLitralRegx, "_"),
             paramType: paramType.fullTypeName,
             inBody: param.in === "body",
-            inPath: param.in === "path"
+            inPath: param.in === "path",
         } as IOperationParam;
     }
 

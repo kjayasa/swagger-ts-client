@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const handlebars = require("handlebars");
-const fsUtil_1 = require("../fsUtil");
+const fsUtil_1 = require("../utils/fsUtil");
 const helpers_1 = require("./helpers");
 handlebars.registerHelper("joinList", helpers_1.joinListHelper);
 handlebars.registerHelper("filterList", helpers_1.filterListHelper);
@@ -70,3 +70,4 @@ class AbstractRenderer {
     }
 }
 exports.AbstractRenderer = AbstractRenderer;
+//# sourceMappingURL=renderer.js.map

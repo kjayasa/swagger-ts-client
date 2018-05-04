@@ -12,7 +12,7 @@ function replaceAll(str: string, searchStr, replacement: ReplacerFn|string){
 }
 
 function getTypeAliases(): Array<{alias: string, typeDefinition: string}>{
-    if(settings.type.typeAliases){
+    if (settings.type.typeAliases){
         return Object.keys(settings.type.typeAliases).map((alias) => {
             return {
                 alias,
@@ -105,16 +105,16 @@ export class TypeNameInfo{
         return this.primitiveSwaggerTypes.includes(swaggerTypeName);
     }
     public static getPrimitiveType(schema: Swagger.Schema): string{
-        let type="";
+        let type = "";
         if (schema.format){
-            type= this.primitiveTypesMapping[`${schema.type}+${schema.format}`];
-            if(!type){
+            type = this.primitiveTypesMapping[`${schema.type}+${schema.format}`];
+            if (!type){
                 type = this.primitiveTypesMapping[schema.type];
             }
         }else{
             type = this.primitiveTypesMapping[schema.type];
         }
-        if(!type){
+        if (!type){
             throw new Error(`unsupported schema {type: ${schema.type},format:${schema.format}}` );
         }
         return type;
@@ -172,7 +172,7 @@ export class TypeNameInfo{
     }
 
     private substituteAliases(){
-        if(settings.type.typeAliases){
+        if (settings.type.typeAliases){
             getTypeAliases().forEach((alias) => {
                 this.parsedResult.composingTypes.forEach((ct) => TypeNameInfo.substituteWithAlias(alias.alias, alias.typeDefinition, ct));
             });

@@ -8,14 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const fsUtil_1 = require("./fsUtil");
+const logger_1 = require("./logger");
 const operationsBuilder_1 = require("./operation/operationsBuilder");
 const operationsGroupRenderer_1 = require("./renderer/operationsGroupRenderer");
 const typesDefinitionRender_1 = require("./renderer/typesDefinitionRender");
 const settings_1 = require("./settings");
-const typeBuilder_1 = require("./type/typeBuilder");
 const swaggerProvider_1 = require("./swaggerProvider/swaggerProvider");
-const logger_1 = require("./logger");
+const typeBuilder_1 = require("./type/typeBuilder");
+const fsUtil_1 = require("./utils/fsUtil");
 class TsFromSwagger {
     constructor(configFile = null, override = {}) {
         logger_1.logger.info(`Starting...`);
@@ -58,7 +58,7 @@ class TsFromSwagger {
         return __awaiter(this, void 0, void 0, function* () {
             const renderer = new operationsGroupRenderer_1.OperationsGroupRender(), opsBuilder = new operationsBuilder_1.OperationsBuilder(paths, typeManager);
             opsBuilder.getAllGroups().forEach((g) => __awaiter(this, void 0, void 0, function* () {
-                let opsName = settings_1.settings.operations.outFileNameTransformFn(g.operationsGroupName);
+                const opsName = settings_1.settings.operations.outFileNameTransformFn(g.operationsGroupName);
                 const stream = fsUtil_1.createWriteStream(settings_1.settings.operations.outPutPath, opsName);
                 logger_1.logger.info(`Writing Operation ${opsName}  to ${settings_1.settings.operations.outPutPath}`);
                 yield renderer.render(stream, g);
@@ -68,3 +68,4 @@ class TsFromSwagger {
     }
 }
 exports.TsFromSwagger = TsFromSwagger;
+//# sourceMappingURL=tsFromSwagger.js.map

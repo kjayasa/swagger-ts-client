@@ -42,34 +42,34 @@ peg$SyntaxError.buildMessage = function (expected, found) {
         },
         other: function (expectation) {
             return expectation.description;
-        }
+        },
     };
     function hex(ch) {
         return ch.charCodeAt(0).toString(16).toUpperCase();
     }
     function literalEscape(s) {
         return s
-            .replace(/\\/g, '\\\\')
+            .replace(/\\/g, "\\\\")
             .replace(/"/g, '\\"')
-            .replace(/\0/g, '\\0')
-            .replace(/\t/g, '\\t')
-            .replace(/\n/g, '\\n')
-            .replace(/\r/g, '\\r')
-            .replace(/[\x00-\x0F]/g, function (ch) { return '\\x0' + hex(ch); })
-            .replace(/[\x10-\x1F\x7F-\x9F]/g, function (ch) { return '\\x' + hex(ch); });
+            .replace(/\0/g, "\\0")
+            .replace(/\t/g, "\\t")
+            .replace(/\n/g, "\\n")
+            .replace(/\r/g, "\\r")
+            .replace(/[\x00-\x0F]/g, function (ch) { return "\\x0" + hex(ch); })
+            .replace(/[\x10-\x1F\x7F-\x9F]/g, function (ch) { return "\\x" + hex(ch); });
     }
     function classEscape(s) {
         return s
-            .replace(/\\/g, '\\\\')
-            .replace(/\]/g, '\\]')
-            .replace(/\^/g, '\\^')
-            .replace(/-/g, '\\-')
-            .replace(/\0/g, '\\0')
-            .replace(/\t/g, '\\t')
-            .replace(/\n/g, '\\n')
-            .replace(/\r/g, '\\r')
-            .replace(/[\x00-\x0F]/g, function (ch) { return '\\x0' + hex(ch); })
-            .replace(/[\x10-\x1F\x7F-\x9F]/g, function (ch) { return '\\x' + hex(ch); });
+            .replace(/\\/g, "\\\\")
+            .replace(/\]/g, "\\]")
+            .replace(/\^/g, "\\^")
+            .replace(/-/g, "\\-")
+            .replace(/\0/g, "\\0")
+            .replace(/\t/g, "\\t")
+            .replace(/\n/g, "\\n")
+            .replace(/\r/g, "\\r")
+            .replace(/[\x00-\x0F]/g, function (ch) { return "\\x0" + hex(ch); })
+            .replace(/[\x10-\x1F\x7F-\x9F]/g, function (ch) { return "\\x" + hex(ch); });
     }
     function describeExpectation(expectation) {
         return DESCRIBE_EXPECTATION_FNS[expectation.type](expectation);
@@ -173,7 +173,7 @@ function peg$parse(input, options) {
             details = peg$posDetailsCache[p];
             details = {
                 line: details.line,
-                column: details.column
+                column: details.column,
             };
             while (p < pos) {
                 if (input.charCodeAt(p) === 10) {
@@ -195,13 +195,13 @@ function peg$parse(input, options) {
             start: {
                 offset: startPos,
                 line: startPosDetails.line,
-                column: startPosDetails.column
+                column: startPosDetails.column,
             },
             end: {
                 offset: endPos,
                 line: endPosDetails.line,
-                column: endPosDetails.column
-            }
+                column: endPosDetails.column,
+            },
         };
     }
     function peg$fail(expected) {
@@ -570,5 +570,6 @@ function peg$parse(input, options) {
 }
 module.exports = {
     SyntaxError: peg$SyntaxError,
-    parse: peg$parse
+    parse: peg$parse,
 };
+//# sourceMappingURL=parser.generated.js.map

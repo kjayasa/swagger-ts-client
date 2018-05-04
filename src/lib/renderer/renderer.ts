@@ -1,16 +1,16 @@
 import * as fs from "fs";
 import * as handlebars from "handlebars";
-import { readFile } from "../fsUtil";
-import {changeCaseHelper, filterListHelper, joinListHelper, someHelper} from "./helpers";
 import {ISettings} from "../settings";
+import { readFile } from "../utils/fsUtil";
+import {changeCaseHelper, filterListHelper, joinListHelper, someHelper} from "./helpers";
 
 handlebars.registerHelper("joinList", joinListHelper);
 handlebars.registerHelper("filterList", filterListHelper);
 handlebars.registerHelper("some", someHelper);
 handlebars.registerHelper("changeCase", changeCaseHelper);
 
-export function registerHandleBarsHelpers(settings:ISettings){
-    if(settings.templateHelpers){
+export function registerHandleBarsHelpers(settings: ISettings){
+    if (settings.templateHelpers){
         handlebars.registerHelper(settings.templateHelpers);
     }
 }

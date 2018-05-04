@@ -1,9 +1,9 @@
 import * as changeCase from "change-case";
 import * as Swagger from "swagger-schema-official";
+import {logger} from "../logger";
 import {IOperationsGroup} from "../operation/operationsBuilder";
 import {Type} from "./type";
 import {TypeNameInfo} from "./typeNameInfo";
-import {logger} from "../logger";
 
 function isBodyParam(param: Swagger.Parameter | Swagger.BodyParameter): param is Swagger.BodyParameter {
     return (param as Swagger.BodyParameter).schema ? true : false;
@@ -34,7 +34,7 @@ export class TypeBuilder{
         return TypeNameInfo.fromSwaggerTypeName(swaggerTypeName).typeName;
     }
     private buildTypeCache(){
-        logger.info("Building Types..")
+        logger.info("Building Types..");
         Object.keys(this.definition).forEach((swaggerTypeName) => {
             const typename = this.getTypeName(swaggerTypeName);
             if (!this.typeCache.has(typename)){

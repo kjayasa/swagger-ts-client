@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const fsUtil_1 = require("../fsUtil");
+const fsUtil_1 = require("../utils/fsUtil");
 class FsSwaggerProvider {
     provide(settings, logger) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -24,3 +24,4 @@ class FsSwaggerProvider {
     }
 }
 exports.FsSwaggerProvider = FsSwaggerProvider;
+//# sourceMappingURL=fsSwaggerProvider.js.map

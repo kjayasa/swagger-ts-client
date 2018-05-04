@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const changeCase = require("change-case");
+const logger_1 = require("../logger");
 const type_1 = require("./type");
 const typeNameInfo_1 = require("./typeNameInfo");
-const logger_1 = require("../logger");
 function isBodyParam(param) {
     return param.schema ? true : false;
 }
@@ -63,3 +63,4 @@ class TypeBuilder {
     }
 }
 exports.TypeBuilder = TypeBuilder;
+//# sourceMappingURL=typeBuilder.js.map

@@ -1,15 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = require("fs");
-const deepMerge = require("mixin-deep");
 const path = require("path");
 const process = require("process");
 const logger_1 = require("./logger");
 const renderer_1 = require("./renderer/renderer");
+const deepMerge_1 = require("./utils/deepMerge");
 exports.settings = {
     type: {
         typeAliases: {
-            "Int32": "number"
+            Int32: "number",
         },
         generatedTypes: "interface",
         membersOptional: true,
@@ -17,13 +17,13 @@ exports.settings = {
         outPutPath: path.join(process.cwd(), "serverTypes", "serverTypes.ts"),
     },
     operations: {
-        operationsGroupNameTransformFn: operationsGroupNameTransformFn,
-        operationsNameTransformFn: operationsNameTransformFn,
+        operationsGroupNameTransformFn,
+        operationsNameTransformFn,
         ungroupedOperationsName: "AllOperations",
         templateFile: path.join(__dirname, "..", "..", "templates", "operationsGroup.handlebars"),
         outPutPath: path.join(process.cwd(), "serverTypes", "httpClients"),
-        outFileNameTransformFn: operationsGroupFilenameFn
-    }
+        outFileNameTransformFn: operationsGroupFilenameFn,
+    },
 };
 function operationsGroupFilenameFn(groupName) {
     return `${groupName}.ts`;
@@ -52,7 +52,7 @@ function loadSettings(configFile = null, override = {}) {
     else if (configFile) {
         throw new Error(`could not find config file ${configPath}`);
     }
-    deepMerge(exports.settings, settingsFromFile, override);
+    deepMerge_1.deepMerge(exports.settings, settingsFromFile, override);
     // overrides
     if (override.swaggerFile && exports.settings.swaggerProvider) {
         exports.settings.swaggerProvider = null;
@@ -64,3 +64,4 @@ function loadSettings(configFile = null, override = {}) {
     return exports.settings;
 }
 exports.loadSettings = loadSettings;
+//# sourceMappingURL=settings.js.map

@@ -24,3 +24,4 @@ class Type {
     }
 }
 exports.Type = Type;
+//# sourceMappingURL=type.js.map

@@ -40,7 +40,7 @@ class Operation {
             paramDisplayName: param.name.replace(nonLitralRegx, "_"),
             paramType: paramType.fullTypeName,
             inBody: param.in === "body",
-            inPath: param.in === "path"
+            inPath: param.in === "path",
         };
     }
     addImportedType(typename) {
@@ -48,3 +48,4 @@ class Operation {
     }
 }
 exports.Operation = Operation;
+//# sourceMappingURL=operation.js.map

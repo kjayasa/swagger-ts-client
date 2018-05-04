@@ -1,14 +1,14 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as Swagger from "swagger-schema-official";
-import { createIfnotExists, createWriteStream } from "./fsUtil";
+import {logger} from "./logger";
 import { OperationsBuilder } from "./operation/operationsBuilder";
 import { OperationsGroupRender } from "./renderer/operationsGroupRenderer";
 import { TypesDefinitionRender } from "./renderer/typesDefinitionRender";
 import { ISettings, loadSettings, settings } from "./settings";
+import { getProvider } from "./swaggerProvider/swaggerProvider";
 import { TypeBuilder } from "./type/typeBuilder";
-import { getProvider } from "./swaggerProvider/swaggerProvider"
-import {logger} from "./logger";
+import { createIfnotExists, createWriteStream } from "./utils/fsUtil";
 export class TsFromSwagger {
     constructor(configFile: string = null, override: ISettings = {}) {
         logger.info(`Starting...`);
@@ -19,7 +19,7 @@ export class TsFromSwagger {
         await this.render();
     }
     private async getSwagger() {
-       return await getProvider().provide(settings,logger);
+       return await getProvider().provide(settings, logger);
         }
     private async render() {
         const swagger = await this.getSwagger();
@@ -36,7 +36,7 @@ export class TsFromSwagger {
         const stream = createWriteStream(settings.type.outPutPath),
             renderer = new TypesDefinitionRender();
 
-            logger.info(`Writing Types to ${settings.type.outPutPath}`);
+        logger.info(`Writing Types to ${settings.type.outPutPath}`);
 
         await renderer.render(stream, typeManager.getAllTypes());
         stream.end();
@@ -47,9 +47,9 @@ export class TsFromSwagger {
     }, typeManager) {
         const renderer = new OperationsGroupRender(),
             opsBuilder = new OperationsBuilder(paths, typeManager);
-        opsBuilder.getAllGroups().forEach(async(g) => {
-            let opsName=settings.operations.outFileNameTransformFn(g.operationsGroupName);
-            const stream = createWriteStream(settings.operations.outPutPath,opsName );
+        opsBuilder.getAllGroups().forEach(async (g) => {
+            const opsName = settings.operations.outFileNameTransformFn(g.operationsGroupName);
+            const stream = createWriteStream(settings.operations.outPutPath, opsName );
             logger.info(`Writing Operation ${opsName}  to ${settings.operations.outPutPath}`);
             await renderer.render(stream, g);
             stream.end();

@@ -1,6 +1,6 @@
 {
   "name": "swagger-ts-client",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "description": "A tool to generate typescript http clients and types from swagger definitions",
   "main": "./bin/main.js",
   "bin": "./bin/main.js",
@@ -12,7 +12,7 @@
     "types",
     "template",
     "handlebar",
-    "http client"    
+    "http client"
   ],
   "scripts": {
     "start": "node ./",
@@ -28,10 +28,8 @@
   "license": "ISC",
   "dependencies": {
     "change-case": "^3.0.1",
-    "command-line-args": "^4.0.7",
     "commander": "^2.11.0",
     "handlebars": "^4.0.10",
-    "mixin-deep": "^1.2.0",
     "mkdirp": "^0.5.1",
     "request": "^2.83.0",
     "request-promise-native": "^1.0.5",

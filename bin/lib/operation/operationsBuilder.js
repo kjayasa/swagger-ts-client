@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const operation_1 = require("./operation");
 const logger_1 = require("../logger");
+const operation_1 = require("./operation");
 const httpVerbs = ["get", "put", "post", "delete", " options", "head", " patch"];
 class OperationsGroup {
     constructor(operationsGroupName) {
@@ -54,3 +54,4 @@ class OperationsBuilder {
     }
 }
 exports.OperationsBuilder = OperationsBuilder;
+//# sourceMappingURL=operationsBuilder.js.map

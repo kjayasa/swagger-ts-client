@@ -12,8 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var lib_1 = require("./lib");
 exports.TsFromSwagger = lib_1.TsFromSwagger;
 exports.HttpSwaggerProvider = lib_1.HttpSwaggerProvider;
-const lib_2 = require("./lib");
 const cli_1 = require("./cli");
+const lib_2 = require("./lib");
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         const args = cli_1.getArgs();
@@ -27,3 +27,4 @@ main()
 }).catch((error) => {
     lib_2.logger.error(error);
 });
+//# sourceMappingURL=main.js.map
