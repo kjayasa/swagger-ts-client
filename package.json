@@ -27,21 +27,21 @@
   "author": "kjayasa <gitdev@jayk.me>",
   "license": "ISC",
   "dependencies": {
-    "change-case": "^3.0.1",
-    "commander": "^2.11.0",
-    "handlebars": "^4.0.10",
+    "change-case": "^3.0.2",
+    "commander": "^2.15.1",
+    "handlebars": "^4.0.11",
     "mkdirp": "^0.5.1",
-    "request": "^2.83.0",
+    "request": "^2.85.0",
     "request-promise-native": "^1.0.5",
     "swagger-schema-official": "^2.0.0-bab6bed"
   },
   "devDependencies": {
-    "@types/handlebars": "^4.0.36",
+    "@types/handlebars": "^4.0.37",
     "@types/node": "^8.0.21",
     "@types/swagger-schema-official": "^2.0.5",
     "pegjs": "^0.10.0",
     "tslint": "^5.7.0",
-    "typescript": "^2.4.2"
+    "typescript": "^2.8.3"
   },
   "repository": "https://github.com/kjayasa/swagger-ts-client.git"
 }
