@@ -59,3 +59,7 @@ typings/
 
 # source map
 *.map
+
+ts-client.config.js
+
+tmp

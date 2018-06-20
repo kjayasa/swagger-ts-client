@@ -21,8 +21,65 @@ export class TsFromSwagger {
     private async getSwagger() {
        return await getProvider().provide(settings, logger);
         }
+    private adjustSwaggerPaths(swagger: Swagger.Spec) {
+        let base = swagger.basePath;
+        const newPaths: {[pathName: string]: Swagger.Path} = {};
+
+        if (base && base.endsWith('/')) {
+            base = base.substring(0, base.length - 2);
+        }
+
+        const checkPathParam = (name: string, paths: Swagger.Path) => {
+            for (const k of Object.keys(paths)) {
+                let params = paths[k].parameters;
+                if (params) {
+                    for (let i = 0; i < params.length; i++) {
+                        const param = params[i];
+
+                        if (param.in && param.in === 'path' && name === param.name) {
+                            if (param.type === 'string') {
+                                return "encodeURIComponent(" + name + ")";
+                            }
+                            else {
+                                return name;
+                            }
+                        }
+                    }
+                }
+            };
+        }
+
+        Object.keys(swagger.paths).forEach(p => {
+            let fixedPath = p;
+            if (p.indexOf('{') > -1) {
+                fixedPath = fixedPath.replace(/(\{.*?\})/gm, (m) => {
+                    m = m.substr(1, m.length-2);
+                    const val = checkPathParam(m, swagger.paths[p]);
+
+                    if (val) {
+                        return "${" + val + "}";
+                    }
+                    else {
+                        throw Error(`Unknown path parameter "${m}" in "${p}"`);
+                    }
+                })
+            }
+            if (base) {
+                if (!fixedPath.startsWith('/')) {
+                    fixedPath = `/${fixedPath}`;
+                }
+
+                fixedPath = base + fixedPath;
+            }
+
+            newPaths[fixedPath] = swagger.paths[p];
+        });
+
+        swagger.paths = newPaths;
+    }
     private async render() {
         const swagger = await this.getSwagger();
+        this.adjustSwaggerPaths(swagger);
         const typeManager = new TypeBuilder(swagger.definitions);
         await this.renderTypes(typeManager);
         await this.renderOperationGroups(swagger.paths, typeManager);
