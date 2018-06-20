@@ -1,6 +1,6 @@
 import * as Swagger from "swagger-schema-official";
 import {logger} from "../logger";
-import {HttpVerb, settings} from "../settings";
+import {HttpVerb} from "../settings";
 import {TypeBuilder} from "../type/typeBuilder";
 import {Operation} from "./operation";
 export interface IOperationsGroup {
@@ -24,7 +24,7 @@ export interface IOperationParam {
     inPath: Boolean;
 }
 
-const httpVerbs = ["get", "put", "post", "delete", " options", "head", " patch"];
+const httpVerbs: HttpVerb[] = ["get", "put", "post", "delete", "options", "head", "patch"];
 
 class OperationsGroup implements IOperationsGroup {
     public operations: Operation[] = [];

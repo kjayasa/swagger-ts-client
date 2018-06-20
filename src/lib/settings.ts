@@ -7,7 +7,7 @@ import {registerHandleBarsHelpers} from "./renderer/renderer";
 import {ISwaggerProvider} from "./swaggerProvider/swaggerProvider";
 import  {deepMerge} from "./utils/deepMerge";
 
-export type HttpVerb= "get"|"put"|"post"|"delete"|" options"|"head"|" patch";
+export type HttpVerb= "get"|"put"|"post"|"delete"|"options"|"head"|"patch";
 
 export type GeneratedType  = "type"|"interface"|"class";
 
