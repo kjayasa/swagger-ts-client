@@ -72,11 +72,7 @@ export class TsFromSwagger {
                 fixedPath = base + fixedPath;
             }
 
-            const t = newPaths[fixedPath] = swagger.paths[p];
-            // console.log('# ', swagger.paths[p]);
-            if (t.post) {
-                console.log('resp: ', t.post.responses);
-            }
+            newPaths[fixedPath] = swagger.paths[p];
         });
 
         swagger.paths = newPaths;

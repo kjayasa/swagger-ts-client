@@ -75,9 +75,6 @@ export class OperationsBuilder {
                     const operation = new Operation(verb, url, opr, this.typeManager);
                     const group = this.getGroup(operation.groupName);
                     group.operations.push(operation);
-                    if (operation.httpVerb === 'post') {
-                        console.log('operation: ', operation);
-                    }
                     group.addImportedTypes(operation.importedTypes);
                 }
             });
