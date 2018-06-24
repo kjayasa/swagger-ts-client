@@ -77,7 +77,11 @@ class TsFromSwagger {
                 }
                 fixedPath = base + fixedPath;
             }
-            newPaths[fixedPath] = swagger.paths[p];
+            const t = newPaths[fixedPath] = swagger.paths[p];
+            // console.log('# ', swagger.paths[p]);
+            if (t.post) {
+                console.log('resp: ', t.post.responses);
+            }
         });
         swagger.paths = newPaths;
     }

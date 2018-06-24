@@ -1,8 +1,8 @@
 import * as Swagger from "swagger-schema-official";
-import {logger} from "../logger";
-import {HttpVerb} from "../settings";
-import {TypeBuilder} from "../type/typeBuilder";
-import {Operation} from "./operation";
+import { logger } from "../logger";
+import { HttpVerb } from "../settings";
+import { TypeBuilder } from "../type/typeBuilder";
+import { Operation } from "./operation";
 export interface IOperationsGroup {
     operationsGroupName: string;
     operations: IOperation[];
@@ -28,15 +28,15 @@ const httpVerbs: HttpVerb[] = ["get", "put", "post", "delete", "options", "head"
 
 class OperationsGroup implements IOperationsGroup {
     public operations: Operation[] = [];
-    public importedTypes: string[]= [];
+    public importedTypes: string[] = [];
     constructor(
         public operationsGroupName: string,
     ) {
 
     }
-    public addImportedTypes(typenames: string[]){
+    public addImportedTypes(typenames: string[]) {
         typenames.forEach((tn) => {
-            if (!this.importedTypes.includes(tn)){
+            if (!this.importedTypes.includes(tn)) {
                 this.importedTypes.push(tn);
             }
         });
@@ -44,7 +44,7 @@ class OperationsGroup implements IOperationsGroup {
 }
 
 export class OperationsBuilder {
-    private opsGroups: Map < string, OperationsGroup > = new Map();
+    private opsGroups: Map<string, OperationsGroup> = new Map();
     constructor(
         private paths: {
             [pathName: string]: Swagger.Path,
@@ -52,10 +52,10 @@ export class OperationsBuilder {
         private typeManager: TypeBuilder) {
         this.buildGroups();
     }
-    private getGroup(groupName: string): OperationsGroup{
-        if (this.opsGroups.has(groupName)){
-           return this.opsGroups.get(groupName);
-        }else{
+    private getGroup(groupName: string): OperationsGroup {
+        if (this.opsGroups.has(groupName)) {
+            return this.opsGroups.get(groupName);
+        } else {
             const group = new OperationsGroup(groupName);
             this.opsGroups.set(groupName, group);
             return group;
@@ -71,17 +71,20 @@ export class OperationsBuilder {
 
             httpVerbs.forEach((verb) => {
                 const opr = swPath[verb] as Swagger.Operation;
-                if (opr){
+                if (opr) {
                     const operation = new Operation(verb, url, opr, this.typeManager);
                     const group = this.getGroup(operation.groupName);
                     group.operations.push(operation);
+                    if (operation.httpVerb === 'post') {
+                        console.log('operation: ', operation);
+                    }
                     group.addImportedTypes(operation.importedTypes);
                 }
             });
         }
     }
 
-    public getAllGroups(){
+    public getAllGroups() {
         return [...this.opsGroups.values()] as IOperationsGroup[];
     }
 

@@ -5,10 +5,10 @@ import {
   lambdaParser,
 } from "../parsers/parsers";
 
-type PredicateFunc < T > = (value: any, index: number, array: any[]) => T;
-const compiledCach: Map < string, PredicateFunc < any >> = new Map();
+type PredicateFunc<T> = (value: any, index: number, array: any[]) => T;
+const compiledCach: Map<string, PredicateFunc<any>> = new Map();
 
-function complieFilterfn < T >(predicate: string): PredicateFunc < T > {
+function complieFilterfn<T>(predicate: string): PredicateFunc<T> {
   if (predicate) {
     if (compiledCach.has(predicate)) {
       return compiledCach.get(predicate);
@@ -16,7 +16,7 @@ function complieFilterfn < T >(predicate: string): PredicateFunc < T > {
       const parseResult = lambdaParser.parse(predicate);
       if (parseResult && parseResult.arguments && parseResult.body) {
         const args = [...parseResult.arguments, `return (${parseResult.body})`];
-        return new Function(...args) as PredicateFunc < T > ;
+        return new Function(...args) as PredicateFunc<T>;
       }
     }
     return null;
@@ -38,7 +38,7 @@ export function filterListHelper(...args): string {
     }
     /* tslint:enable:triple-equals */
     if (fliter) {
-      const fliterFn = complieFilterfn < boolean > (fliter);
+      const fliterFn = complieFilterfn<boolean>(fliter);
       if (fliterFn) {
         let ret = "";
         for (let i = 0; i < take; i++) {
@@ -68,11 +68,11 @@ export function someHelper(...args): string {
 
   if (context && context instanceof Array && fliter) {
     if (fliter) {
-      const fliterFn = complieFilterfn < boolean > (fliter);
+      const fliterFn = complieFilterfn<boolean>(fliter);
       if (fliterFn) {
-        if (context.some(fliterFn)){
-          return  options.fn(context);
-        }else{
+        if (context.some(fliterFn)) {
+          return options.fn(context);
+        } else {
           return "";
         }
 
@@ -98,7 +98,7 @@ export function joinListHelper(...args): string {
     let filteredArray = context;
 
     if (filter) {
-      const fliterFn = complieFilterfn < boolean > (filter);
+      const fliterFn = complieFilterfn<boolean>(filter);
       if (fliterFn) {
         filteredArray = context.filter(fliterFn);
       } else {
@@ -111,10 +111,10 @@ export function joinListHelper(...args): string {
   }
 }
 
-export function changeCaseHelper(context: any, toCase: string, options: any): string{
-  if (context && typeof(context) === "string" && toCase && changeCase[toCase] && changeCase[toCase] instanceof Function){
+export function changeCaseHelper(context: any, toCase: string, options: any): string {
+  if (context && typeof (context) === "string" && toCase && changeCase[toCase] && changeCase[toCase] instanceof Function) {
     return changeCase[toCase](context);
-  }else{
+  } else {
     return "";
   }
 }
