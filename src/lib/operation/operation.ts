@@ -24,18 +24,30 @@ export class Operation implements IOperation {
         }
 
     }
-    public getResponse(): string {
-        if (this.swOpr.responses && this.swOpr.responses["200"] && this.swOpr.responses["200"].schema) {
-            const retType = this.typeManager.getTypeNameInfo(this.swOpr.responses["200"].schema);
 
-            if (!TypeNameInfo.isJsPrimitive(retType.fullTypeName)) {
-                this.addImportedType(retType);
+    public getResponse(): string {
+        const resps = this.swOpr.responses;
+        if (resps) {
+            for (const rt of Object.keys(resps)) {
+                const nrt = (parseInt(rt, 10) / 100.0) as number;
+
+                if (Math.round(nrt) === 2) {
+                    const schema = resps[rt].schema;
+
+                    if (schema) {
+                        const retType = this.typeManager.getTypeNameInfo(schema);
+
+                        if (!TypeNameInfo.isJsPrimitive(retType.fullTypeName)) {
+                            this.addImportedType(retType);
+                        }
+
+                        return retType.fullTypeName;
+                    }
+                }
             }
-            return retType.fullTypeName;
         }
-        else {
-            return "void";
-        }
+
+        return "void";
     }
     public buildParam(param: Swagger.Parameter): IOperationParam {
         const paramType = this.typeManager.getTypeNameInfoParameter(param);
