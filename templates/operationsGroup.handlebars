@@ -24,7 +24,7 @@ export class {{operationGroup.operationsGroupName}} {
         return new Promise<{{responsesType}}>((resolve, reject) => {
             request
             .{{httpVerb}}(`{{url}}`)
-            {{#some operationParams "op=>!op.inBody"}}
+            {{#some operationParams "op=>(!op.inBody && !op.inPath)"}}
             .query(params)
             {{/some}}
             {{#filterList operationParams "op=>op.inBody" "1"}}
