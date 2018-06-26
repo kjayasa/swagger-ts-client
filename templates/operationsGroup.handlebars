@@ -10,7 +10,6 @@ import { {{#joinList imports.types}}{{this}}{{/joinList}} } from "{{imports.path
 {{/if}}
 
 export class {{operationGroup.operationsGroupName}} {
-
     {{#each operationGroup.operations}}
     public {{operationName}}({{#joinList operationParams}} {{paramDisplayName}}:{{paramType}} {{/joinList}}):Promise<{{responsesType}}>{
         {{#if operationParams}}
@@ -27,7 +26,7 @@ export class {{operationGroup.operationsGroupName}} {
             {{#some operationParams "op=>(!op.inBody && !op.inPath)"}}
             .query(params)
             {{/some}}
-            {{#filterList operationParams "op=>op.inBody" "1"}}
+            {{#filterList operationParams "op=>op.inBody"}}
             .send({{paramDisplayName}})
             {{/filterList}}
             .end(function(error, res){
