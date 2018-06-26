@@ -1,5 +1,4 @@
 import * as changeCase from "change-case";
-import * as handlebars from "handlebars";
 import * as os from "os";
 import {
   lambdaParser,
@@ -27,18 +26,18 @@ export function filterListHelper(...args): string {
 
   let context: any[] = args.shift(),
     options = args.pop(),
-    fliter = args.shift(),
+    filter = args.shift(),
     take = args.shift() || -1;
 
-  if (context && context instanceof Array && fliter) {
+  if (context && context instanceof Array && filter) {
     /* tslint:disable:triple-equals */
     if (take == -1) // using == beacuse take can be string
     {
       take = context.length;
     }
     /* tslint:enable:triple-equals */
-    if (fliter) {
-      const fliterFn = complieFilterfn<boolean>(fliter);
+    if (filter) {
+      const fliterFn = complieFilterfn<boolean>(filter);
       if (fliterFn) {
         let ret = "";
         for (let i = 0; i < take; i++) {
@@ -48,11 +47,11 @@ export function filterListHelper(...args): string {
         }
         return ret;
       } else {
-        throw new Error(`${fliter} is not valid filter expressaion`);
+        throw new Error(`${filter} is not valid filter expression`);
       }
 
     } else {
-      throw new Error("parameter 'filter' in  #filterList Helper is not optional");
+      throw new Error("parameter 'filter' in  #filterListHelper is not optional");
     }
 
   } else {
@@ -64,11 +63,11 @@ export function someHelper(...args): string {
 
   const context: any[] = args.shift(),
     options = args.pop(),
-    fliter = args.shift();
+    filter = args.shift();
 
-  if (context && context instanceof Array && fliter) {
-    if (fliter) {
-      const fliterFn = complieFilterfn<boolean>(fliter);
+  if (context && context instanceof Array && filter) {
+    if (filter) {
+      const fliterFn = complieFilterfn<boolean>(filter);
       if (fliterFn) {
         if (context.some(fliterFn)) {
           return options.fn(context);
@@ -77,10 +76,10 @@ export function someHelper(...args): string {
         }
 
       } else {
-        throw new Error(`${fliter} is not valid filter expressaion`);
+        throw new Error(`${filter} is not valid filter expression`);
       }
     } else {
-      throw new Error("parameter 'filter' in  #sum Helper is not optional");
+      throw new Error("parameter 'filter' in  #someHelper is not optional");
     }
   } else {
     return "";

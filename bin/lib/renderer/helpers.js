@@ -20,16 +20,16 @@ function complieFilterfn(predicate) {
     }
 }
 function filterListHelper(...args) {
-    let context = args.shift(), options = args.pop(), fliter = args.shift(), take = args.shift() || -1;
-    if (context && context instanceof Array && fliter) {
+    let context = args.shift(), options = args.pop(), filter = args.shift(), take = args.shift() || -1;
+    if (context && context instanceof Array && filter) {
         /* tslint:disable:triple-equals */
         if (take == -1) // using == beacuse take can be string
          {
             take = context.length;
         }
         /* tslint:enable:triple-equals */
-        if (fliter) {
-            const fliterFn = complieFilterfn(fliter);
+        if (filter) {
+            const fliterFn = complieFilterfn(filter);
             if (fliterFn) {
                 let ret = "";
                 for (let i = 0; i < take; i++) {
@@ -40,11 +40,11 @@ function filterListHelper(...args) {
                 return ret;
             }
             else {
-                throw new Error(`${fliter} is not valid filter expressaion`);
+                throw new Error(`${filter} is not valid filter expression`);
             }
         }
         else {
-            throw new Error("parameter 'filter' in  #filterList Helper is not optional");
+            throw new Error("parameter 'filter' in  #filterListHelper is not optional");
         }
     }
     else {
@@ -53,10 +53,10 @@ function filterListHelper(...args) {
 }
 exports.filterListHelper = filterListHelper;
 function someHelper(...args) {
-    const context = args.shift(), options = args.pop(), fliter = args.shift();
-    if (context && context instanceof Array && fliter) {
-        if (fliter) {
-            const fliterFn = complieFilterfn(fliter);
+    const context = args.shift(), options = args.pop(), filter = args.shift();
+    if (context && context instanceof Array && filter) {
+        if (filter) {
+            const fliterFn = complieFilterfn(filter);
             if (fliterFn) {
                 if (context.some(fliterFn)) {
                     return options.fn(context);
@@ -66,11 +66,11 @@ function someHelper(...args) {
                 }
             }
             else {
-                throw new Error(`${fliter} is not valid filter expressaion`);
+                throw new Error(`${filter} is not valid filter expression`);
             }
         }
         else {
-            throw new Error("parameter 'filter' in  #sum Helper is not optional");
+            throw new Error("parameter 'filter' in  #someHelper is not optional");
         }
     }
     else {
