@@ -16,6 +16,7 @@ export interface IType {
 export interface IProperty {
     propertyName: string;
     typeName: string;
+    required: boolean;
 }
 
 export interface ISwaggerDefinition {
@@ -59,16 +60,22 @@ export class TypeBuilder {
         const type = new Type(swaggerTypeName);
 
         const properties = swaggerType.properties;
-        for (const propertyName in properties) {
-            if (properties.hasOwnProperty(propertyName)) {
-                const prop = properties[propertyName];
-                let typeName = TypeNameInfo.getTypeNameInfoFromSchema(prop);
-                if (typeName.isInlineType) {
-                    typeName = TypeNameInfo.fromSwaggerTypeName(type.typeNameInfo.partialTypeName + changeCase.pascalCase(propertyName));
-                    this.inlineTypes.set(typeName.fullTypeName, prop);
-                }
-                type.addProperty(propertyName, typeName);
+
+        for (const propertyName of Object.keys(properties)) {
+            const prop = properties[propertyName];
+            let typeName = TypeNameInfo.getTypeNameInfoFromSchema(prop);
+
+            if (typeName.isInlineType) {
+                typeName = TypeNameInfo.fromSwaggerTypeName(type.typeNameInfo.partialTypeName + changeCase.pascalCase(propertyName));
+                this.inlineTypes.set(typeName.fullTypeName, prop);
             }
+
+            let isRequired = false;
+            if (swaggerType.required) {
+                isRequired = swaggerType.required.includes(propertyName);
+            }
+
+            type.addProperty(propertyName, typeName, isRequired);
         }
         return type;
     }

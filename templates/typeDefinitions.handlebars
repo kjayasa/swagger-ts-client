@@ -10,7 +10,7 @@
 {{#each types}}
     export {{../generatedTypes}} {{typeName}}  {
     {{#each properties}}
-        {{propertyName}}{{../../membersOptional}} : {{typeName}}
+        {{propertyName}}{{^required}}?{{/required}}: {{typeName}}
     {{/each}}
     }
 {{/each}}

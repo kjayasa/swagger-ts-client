@@ -16,11 +16,11 @@ class Type {
     get partialTypeName() {
         return this.typeNameInfo.partialTypeName;
     }
-    addProperty(propertyName, propertyType) {
+    addProperty(propertyName, propertyType, required = false) {
         if (this.isGeneric) {
             propertyType = this.typeNameInfo.replaceWithGenericType(propertyType);
         }
-        this.properties.push({ propertyName, typeName: propertyType.fullTypeName });
+        this.properties.push({ propertyName, typeName: propertyType.fullTypeName, required });
     }
 }
 exports.Type = Type;
