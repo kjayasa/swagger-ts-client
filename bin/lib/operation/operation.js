@@ -41,6 +41,7 @@ class Operation {
             paramType: paramType.fullTypeName,
             inBody: param.in === "body",
             inPath: param.in === "path",
+            inQuery: param.in === "query",
         };
     }
     addImportedType(typename) {
@@ -48,4 +49,3 @@ class Operation {
     }
 }
 exports.Operation = Operation;
-//# sourceMappingURL=operation.js.map

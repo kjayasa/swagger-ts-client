@@ -110,4 +110,3 @@ function changeCaseHelper(context, toCase, options) {
     }
 }
 exports.changeCaseHelper = changeCaseHelper;
-//# sourceMappingURL=helpers.js.map

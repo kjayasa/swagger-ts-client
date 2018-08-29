@@ -24,4 +24,3 @@ class FsSwaggerProvider {
     }
 }
 exports.FsSwaggerProvider = FsSwaggerProvider;
-//# sourceMappingURL=fsSwaggerProvider.js.map

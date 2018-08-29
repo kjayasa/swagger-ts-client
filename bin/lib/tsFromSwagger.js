@@ -118,4 +118,3 @@ class TsFromSwagger {
     }
 }
 exports.TsFromSwagger = TsFromSwagger;
-//# sourceMappingURL=tsFromSwagger.js.map

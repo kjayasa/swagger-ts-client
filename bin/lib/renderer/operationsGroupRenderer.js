@@ -35,4 +35,3 @@ class OperationsGroupRender extends renderer_1.AbstractRenderer {
     }
 }
 exports.OperationsGroupRender = OperationsGroupRender;
-//# sourceMappingURL=operationsGroupRenderer.js.map
