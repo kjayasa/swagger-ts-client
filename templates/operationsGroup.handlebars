@@ -8,7 +8,7 @@ import * as request from "superagent";
 {{#if imports.types}}
 import {
   {{#joinList imports.types ",\n  "}}{{this}}{{/joinList}}
-} from "{{imports.path}}"
+} from "{{imports.path}}";
 {{/if}}
 
 {{#if tag}}

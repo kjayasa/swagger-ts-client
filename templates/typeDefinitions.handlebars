@@ -15,7 +15,7 @@
 {{#each types}}
 export {{../generatedTypes}} {{typeName}}  {
   {{#each properties}}
-  {{propertyName}}{{^required}}?{{/required}}: {{typeName}}
+  {{propertyName}}{{^required}}?{{/required}}: {{typeName}};
   {{/each}}
 }
 
