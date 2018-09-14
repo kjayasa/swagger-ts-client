@@ -42,7 +42,8 @@ class TypeBuilder {
             const prop = properties[propertyName];
             let typeName = typeNameInfo_1.TypeNameInfo.getTypeNameInfoFromSchema(prop);
             if (typeName.isInlineType) {
-                typeName = typeNameInfo_1.TypeNameInfo.fromSwaggerTypeName(type.typeNameInfo.partialTypeName + changeCase.pascalCase(propertyName));
+                typeName = typeNameInfo_1.TypeNameInfo.fromSwaggerTypeName(type.typeNameInfo.partialTypeName +
+                    changeCase.pascalCase(propertyName));
                 this.inlineTypes.set(typeName.fullTypeName, prop);
             }
             let isRequired = false;
@@ -57,8 +58,11 @@ class TypeBuilder {
         return typeNameInfo_1.TypeNameInfo.getTypeNameInfoFromSchema(schema);
     }
     getTypeNameInfoParameter(param) {
-        const schema = isBodyParam(param) ? param.schema : param;
-        return this.getTypeNameInfo(schema);
+        const schema = isBodyParam(param)
+            ? param.schema
+            : param;
+        const res = this.getTypeNameInfo(schema);
+        return res;
     }
     getAllTypes() {
         return [...this.typeCache.values()];

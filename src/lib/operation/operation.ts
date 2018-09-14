@@ -65,6 +65,7 @@ export class Operation implements IOperation {
 
   public buildParam(param: Swagger.Parameter): IOperationParam {
     const paramType = this.typeManager.getTypeNameInfoParameter(param);
+
     this.addImportedType(paramType);
 
     return {
@@ -73,6 +74,7 @@ export class Operation implements IOperation {
       paramType: paramType.fullTypeName,
       inBody: param.in === "body",
       inPath: param.in === "path",
+      optional: paramType.isOptional,
     } as IOperationParam;
   }
 

@@ -51,6 +51,7 @@ class Operation {
             paramType: paramType.fullTypeName,
             inBody: param.in === "body",
             inPath: param.in === "path",
+            optional: paramType.isOptional,
         };
     }
     addImportedType(typename) {

@@ -22,15 +22,22 @@ class TypeNameInfo {
         this.parsedResult = parsedResult;
         //private parsedResult:ITypeNameParserAst=null;
         this.isInlineType = false;
+        this.isOptional = false;
         this.genericTypeArgsMap = null;
         this.substituteAliases();
         if (this.isGeneric) {
-            this.genericTypeArgsMap = new Map(this.parsedResult.genericParams.map((ta, i) => [ta, parsers_1.typeNameParser.parse(TypeNameInfo.genericTypeNames[i])]));
+            this.genericTypeArgsMap = new Map(this.parsedResult.genericParams
+                .map((ta, i) => {
+                const ast = parsers_1.typeNameParser.parse(TypeNameInfo.genericTypeNames[i]);
+                return [ta, ast];
+            }));
         }
     }
     get typeName() {
         if (this.isGeneric) {
-            return `${this.parsedResult.partialTypeName}<${[...this.genericTypeArgsMap.values()].map((i) => i.fullTypeName).join()}>`;
+            return `${this.parsedResult.partialTypeName}` +
+                `<${[...this.genericTypeArgsMap.values()]
+                    .map((i) => i.fullTypeName).join()}>`;
         }
         else {
             return this.parsedResult.partialTypeName;
@@ -40,20 +47,24 @@ class TypeNameInfo {
         return this.parsedResult.fullTypeName;
     }
     get isGeneric() {
-        return this.parsedResult.genericParams && this.parsedResult.genericParams.length > 0;
+        return this.parsedResult.genericParams &&
+            this.parsedResult.genericParams.length > 0;
     }
     get partialTypeName() {
         return this.parsedResult.partialTypeName;
     }
     replaceWithGenericType(propertyTypeName) {
         for (const [typeArg, genericTypeName] of this.genericTypeArgsMap) {
-            propertyTypeName = TypeNameInfo.substitute(propertyTypeName, typeArg, genericTypeName);
+            propertyTypeName =
+                TypeNameInfo.substitute(propertyTypeName, typeArg, genericTypeName);
         }
         return propertyTypeName;
     }
     getComposingTypeNames(filterPrimitive = false) {
         if (filterPrimitive) {
-            return this.parsedResult.composingTypes.filter((ct) => !TypeNameInfo.isJsPrimitive(ct.partialTypeName)).map((ct) => ct.partialTypeName);
+            return this.parsedResult.composingTypes
+                .filter((ct) => !TypeNameInfo.isJsPrimitive(ct.partialTypeName))
+                .map((ct) => ct.partialTypeName);
         }
         else {
             return this.parsedResult.composingTypes.map((ct) => ct.partialTypeName);
@@ -82,7 +93,7 @@ class TypeNameInfo {
             type = this.primitiveTypesMapping[schema.type];
         }
         if (!type) {
-            throw new Error(`unsupported schema {type: ${schema.type},format:${schema.format}}`);
+            throw new Error(`unsupported schema {type: ${schema.type}, format:${schema.format}}`);
         }
         return type;
     }
@@ -90,23 +101,33 @@ class TypeNameInfo {
         return this.primitiveJsTypes.includes(typename);
     }
     static getTypeNameInfoFromSchema(schema) {
+        let typenameInfo;
         if (schema.$ref && schema.$ref[0] === "#") {
             const match = schema.$ref.match(typeRefRegx);
             if (match) {
-                return TypeNameInfo.fromSwaggerTypeName(match[1]);
+                typenameInfo = TypeNameInfo.fromSwaggerTypeName(match[1]);
             }
         }
         else if (this.isSwaggerTypePrimitive(schema.type)) {
-            return TypeNameInfo.fromSwaggerTypeName(this.getPrimitiveType(schema));
+            typenameInfo = TypeNameInfo.fromSwaggerTypeName(this.getPrimitiveType(schema));
         }
         else if (schema.type === "array" && schema.items) {
-            const itemSchema = (schema.items instanceof Array) ? schema.items[0] : schema.items;
-            return TypeNameInfo.fromSwaggerTypeName(`Array<${this.getTypeNameInfoFromSchema(itemSchema).fullTypeName}>`);
+            const itemSchema = (schema.items instanceof Array)
+                ? schema.items[0]
+                : schema.items;
+            typenameInfo = TypeNameInfo.fromSwaggerTypeName(`Array<${this.getTypeNameInfoFromSchema(itemSchema).fullTypeName}>`);
         }
         else if (schema.type === "object" && schema.properties) {
-            return TypeNameInfo.createInlineTypeName();
+            typenameInfo = TypeNameInfo.createInlineTypeName();
         }
-        return TypeNameInfo.fromSwaggerTypeName("any");
+        else {
+            typenameInfo = TypeNameInfo.fromSwaggerTypeName("any");
+        }
+        if (typeof schema.required !== 'undefined' &&
+            typeof schema.required === 'boolean') {
+            typenameInfo.isOptional = !schema.required;
+        }
+        return typenameInfo;
     }
     static substitute(typeName, searchTypeAst, replacementAst) {
         typeName.parsedResult.composingTypes.forEach((ct) => {
@@ -122,8 +143,7 @@ class TypeNameInfo {
         if (aliasAst.partialTypeName === typeName.partialTypeName) {
             if (aliasAst.genericParams && aliasAst.genericParams.length) {
                 const typeDefAst = parsers_1.typeNameParser.parse(typedef);
-                aliasAst.genericParams.forEach((agp) => {
-                });
+                aliasAst.genericParams.forEach((agp) => { });
             }
             else {
                 typeName.partialTypeName = typedef;
@@ -133,15 +153,23 @@ class TypeNameInfo {
     substituteAliases() {
         if (settings_1.settings.type.typeAliases) {
             getTypeAliases().forEach((alias) => {
-                this.parsedResult.composingTypes.forEach((ct) => TypeNameInfo.substituteWithAlias(alias.alias, alias.typeDefinition, ct));
+                this.parsedResult.composingTypes
+                    .forEach((ct) => {
+                    return TypeNameInfo.substituteWithAlias(alias.alias, alias.typeDefinition, ct);
+                });
             });
         }
     }
 }
 TypeNameInfo.inlineSchemaCount = 1;
 TypeNameInfo.genericTypeNames = "TUKABCDEFGHIJLMNOPQRSVWXYZ".split("");
-TypeNameInfo.primitiveSwaggerTypes = ["integer", "number", "string", "boolean"];
-TypeNameInfo.primitiveJsTypes = ["number", "string", "String", "boolean", "Date", "any", "void", "Array", "Map", "Set"];
+TypeNameInfo.primitiveSwaggerTypes = [
+    "integer", "number", "string", "boolean"
+];
+TypeNameInfo.primitiveJsTypes = [
+    "number", "string", "String", "boolean",
+    "Date", "any", "void", "Array", "Map", "Set"
+];
 TypeNameInfo.primitiveTypesMapping = {
     "integer+int32": "number",
     "integer+int64": "number",

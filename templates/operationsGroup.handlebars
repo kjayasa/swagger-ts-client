@@ -19,7 +19,9 @@ import {
 
 export class {{operationGroup.operationsGroupName}} {
   {{#each operationGroup.operations}}
-  public {{operationName}}({{#joinList operationParams}}{{paramDisplayName}}: {{paramType}}{{/joinList}}): Promise<{{responsesType}}> {
+  public {{operationName}}({{#joinList operationParams}}
+    {{paramDisplayName}}{{#optional}}?{{/optional}}: {{paramType}}{{/joinList}}): Promise<{{responsesType}}>
+  {
     {{#if operationParams}}
     {{#some operationParams "op=>(!op.inBody && !op.inPath)"}}
     const params = {
