@@ -7,15 +7,16 @@
 // Type generated from Swagger definition
 
 {{#if tag}}
-    {{#each tag}}
-    {{this}}
-    {{/each}}
+  {{#each tag}}
+  {{this}}
+  {{/each}}
 {{/if}}
 
 {{#each types}}
-    export {{../generatedTypes}} {{typeName}}  {
-    {{#each properties}}
-        {{propertyName}}{{^required}}?{{/required}}: {{typeName}}
-    {{/each}}
-    }
+export {{../generatedTypes}} {{typeName}}  {
+  {{#each properties}}
+  {{propertyName}}{{^required}}?{{/required}}: {{typeName}}
+  {{/each}}
+}
+
 {{/each}}

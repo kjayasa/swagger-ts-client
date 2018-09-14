@@ -83,7 +83,7 @@ function joinListHelper(...args) {
     const options = args.pop();
     if (context && context instanceof Array) {
         let [seperator, filter] = [...args];
-        seperator = seperator ? seperator.replace(/\\n/g, os.EOL) : ",";
+        seperator = seperator ? seperator.replace(/\\n/g, os.EOL) : ", ";
         let filteredArray = context;
         if (filter) {
             const fliterFn = complieFilterfn(filter);
