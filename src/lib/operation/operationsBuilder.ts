@@ -22,6 +22,7 @@ export interface IOperationParam {
   paramType: string;
   inBody: boolean;
   inPath: boolean;
+  inQuery: boolean;
   optional: boolean;
 }
 
