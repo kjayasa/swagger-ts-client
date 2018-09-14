@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as Swagger from "swagger-schema-official";
-import {logger} from "./logger";
+import { logger } from "./logger";
 import { OperationsBuilder } from "./operation/operationsBuilder";
 import { OperationsGroupRender } from "./renderer/operationsGroupRenderer";
 import { TypesDefinitionRender } from "./renderer/typesDefinitionRender";
@@ -19,11 +19,11 @@ export class TsFromSwagger {
         await this.render();
     }
     private async getSwagger() {
-       return await getProvider().provide(settings, logger);
-        }
+        return await getProvider().provide(settings, logger);
+    }
     private adjustSwaggerPaths(swagger: Swagger.Spec) {
         let base = swagger.basePath;
-        const newPaths: {[pathName: string]: Swagger.Path} = {};
+        const newPaths: { [pathName: string]: Swagger.Path } = {};
 
         if (base && base.endsWith('/')) {
             base = base.substring(0, base.length - 2);
@@ -53,7 +53,7 @@ export class TsFromSwagger {
             let fixedPath = p;
             if (p.indexOf('{') > -1) {
                 fixedPath = fixedPath.replace(/(\{.*?\})/gm, (m) => {
-                    m = m.substr(1, m.length-2);
+                    m = m.substr(1, m.length - 2);
                     const val = checkPathParam(m, swagger.paths[p]);
 
                     if (val) {
@@ -99,14 +99,14 @@ export class TsFromSwagger {
         stream.end();
     }
 
-    private async renderOperationGroups(paths: {
-        [pathName: string]: Swagger.Path,
-    }, typeManager) {
+    private async renderOperationGroups(
+        paths: { [pathName: string]: Swagger.Path }, typeManager)
+    {
         const renderer = new OperationsGroupRender(),
             opsBuilder = new OperationsBuilder(paths, typeManager);
         opsBuilder.getAllGroups().forEach(async (g) => {
             const opsName = settings.operations.outFileNameTransformFn(g.operationsGroupName);
-            const stream = createWriteStream(settings.operations.outPutPath, opsName );
+            const stream = createWriteStream(settings.operations.outPutPath, opsName);
             logger.info(`Writing Operation ${opsName}  to ${settings.operations.outPutPath}`);
             await renderer.render(stream, g);
             stream.end();

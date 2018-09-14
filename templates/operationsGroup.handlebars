@@ -1,46 +1,54 @@
+/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+ |                                                                           |
+ *                   THIS FILE IS GENERATED, DO NOT EDIT                     *
+ |                                                                           |
+ *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
 import * as request from "superagent";
 {{#if imports.types}}
-import { {{#joinList imports.types}}{{this}}{{/joinList}} } from "{{imports.path}}"
+import {
+  {{#joinList imports.types ",\n  "}}{{this}}{{/joinList}}
+} from "{{imports.path}}";
 {{/if}}
 
 {{#if tag}}
-    {{#each tag}}
-    {{this}}
-    {{/each}}
+  {{#each tag}}
+  {{this}}
+  {{/each}}
 {{/if}}
 
 export class {{operationGroup.operationsGroupName}} {
+  {{#each operationGroup.operations}}
+  public {{operationName}}({{#joinList operationParams}}
+    {{paramDisplayName}}{{#optional}}?{{/optional}}: {{paramType}}{{/joinList}}): Promise<{{responsesType}}>
+  {
+    {{#if operationParams}}
+    {{#some operationParams "op=>(!op.inBody && !op.inPath)"}}
+    const params = {
+      {{#joinList this ",\n" "op=>(!op.inBody && !op.inPath)"}}
+      "{{paramName}}":{{paramDisplayName}}{{/joinList}}
+    };
 
-    {{#each operationGroup.operations}}
-    public {{operationName}}({{#joinList operationParams}} {{paramDisplayName}}:{{paramType}} {{/joinList}}):Promise<{{responsesType}}>{
-        {{#if operationParams}}
-            {{#some operationParams "op=>(!op.inBody && !op.inPath)"}}
-        const params = {
-            {{#joinList this ",\n" "op=>(!op.inBody && !op.inPath)"}}
-            "{{paramName}}":{{paramDisplayName}}{{/joinList}}
-        };
-            {{/some}}
-        {{/if}}
-        return new Promise<{{responsesType}}>((resolve, reject) => {
-            request
-            .{{httpVerb}}(`{{url}}`)
-            {{#some operationParams "op=>!op.inBody"}}
-            .query(params)
-            {{/some}}
-            {{#filterList operationParams "op=>op.inBody" "1"}}
-            .send({{paramDisplayName}})
-            {{/filterList}}
-            .end(function(error, res){
-                if(error){
-                    reject(error);
-                }else{
-                   resolve(res.body as {{responsesType}});
-                }
-            });
-        });
-    }
-    {{/each}}
+    {{/some}}
+    {{/if}}
+    return new Promise<{{responsesType}}>((resolve, reject) => {
+      request
+      .{{httpVerb}}(`{{url}}`)
+      {{#some operationParams "op=>(!op.inBody && !op.inPath)"}}
+      .query(params)
+      {{/some}}
+      {{#filterList operationParams "op=>op.inBody"}}
+      .send({{paramDisplayName}})
+      {{/filterList}}
+      .end(function(error, res){
+        if (error){
+          reject(error);
+        } else {
+          resolve(res.body as {{responsesType}});
+        }
+      });
+    });
+  }
+
+  {{/each}}
 }
-
-
-

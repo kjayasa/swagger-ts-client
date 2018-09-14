@@ -1,12 +1,12 @@
-import {IProperty, ISwaggerDefinition, IType} from "./typeBuilder";
-import {TypeNameInfo} from "./typeNameInfo";
+import { IProperty, ISwaggerDefinition, IType } from "./typeBuilder";
+import { TypeNameInfo } from "./typeNameInfo";
 
-export class Type  implements IType{
+export class Type implements IType {
 
     public properties: IProperty[] = [];
     public typeNameInfo: TypeNameInfo;
 
-    constructor(public swaggerTypeName: string){
+    constructor(public swaggerTypeName: string) {
         this.typeNameInfo = TypeNameInfo.fromSwaggerTypeName(swaggerTypeName);
     }
 
@@ -14,7 +14,7 @@ export class Type  implements IType{
         return this.typeNameInfo.typeName;
     }
 
-    get isGeneric(): boolean{
+    get isGeneric(): boolean {
         return this.typeNameInfo.isGeneric;
     }
 
@@ -22,10 +22,14 @@ export class Type  implements IType{
         return this.typeNameInfo.partialTypeName;
     }
 
-    public addProperty(propertyName: string, propertyType: TypeNameInfo){
-        if (this.isGeneric){
+    public addProperty(
+        propertyName: string,
+        propertyType: TypeNameInfo,
+        required: boolean = false)
+    {
+        if (this.isGeneric) {
             propertyType = this.typeNameInfo.replaceWithGenericType(propertyType);
         }
-        this.properties.push({propertyName, typeName: propertyType.fullTypeName});
+        this.properties.push({ propertyName, typeName: propertyType.fullTypeName, required });
     }
 }

@@ -17,6 +17,7 @@
   "scripts": {
     "start": "node ./",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsc --watch",
     "build:dev": "tsc",
     "build": "tsc --sourceMap false",
     "build:lambdaParser": "pegjs -o ./src/lib/parsers/lambdaParser/parser.generated.js ./src/lib/parsers/lambdaParser/grammer.pegjs",

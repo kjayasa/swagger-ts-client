@@ -9,9 +9,9 @@ function wrap(func: Func): asyncFunc {
         return new Promise((resolve, reject) => {
 
             func(...args, (err, ret) => {
-                if (err){
+                if (err) {
                     reject(err);
-                }else{
+                } else {
                     resolve(ret);
                 }
             });
@@ -21,22 +21,22 @@ function wrap(func: Func): asyncFunc {
 
 type asyncMkdirp = (path: fs.PathLike, mode?: number | string | undefined | null) => Promise<void>;
 const mkdir: asyncMkdirp = wrap(mkdirp);
-export type asyncreadFile = (path: fs.PathLike | number, options: { encoding?: null; flag?: string; } | string | undefined | null ) => Promise<string>;
+export type asyncreadFile = (path: fs.PathLike | number, options: { encoding?: null; flag?: string; } | string | undefined | null) => Promise<string>;
 export const readFile: asyncreadFile = wrap(fs.readFile);
 
-export function createWriteStream(outPath: string, filename: string= "") {
-    if (filename){
+export function createWriteStream(outPath: string, filename: string = "") {
+    if (filename) {
         outPath = path.join(outPath, filename);
     }
     return fs.createWriteStream(outPath);
 }
 
-export async function createIfnotExists(outPath: string){
+export async function createIfnotExists(outPath: string) {
     const parsed = path.parse(outPath);
-    if (parsed.ext){
+    if (parsed.ext) {
         outPath = parsed.dir;
     }
-    if (!fs.existsSync(outPath)){
+    if (!fs.existsSync(outPath)) {
         await mkdir(outPath);
     }
 }
