@@ -37,4 +37,3 @@ class HttpSwaggerProvider {
     }
 }
 exports.HttpSwaggerProvider = HttpSwaggerProvider;
-//# sourceMappingURL=httpSwaggerProvider.js.map

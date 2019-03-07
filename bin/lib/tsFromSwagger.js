@@ -34,6 +34,8 @@ class TsFromSwagger {
     }
     adjustSwaggerPaths(swagger) {
         let base = swagger.basePath;
+        let host = swagger.host;
+        let schemes = swagger.schemes;
         const newPaths = {};
         if (base && base.endsWith('/')) {
             base = base.substring(0, base.length - 2);
@@ -77,6 +79,15 @@ class TsFromSwagger {
                 }
                 fixedPath = base + fixedPath;
             }
+            fixedPath = (host !== undefined) ? host + fixedPath : fixedPath;
+            if (schemes !== undefined && schemes.length > 0) {
+                if (schemes.filter(function (x) { return x.toLowerCase() == "https"; })) {
+                    fixedPath = "https://" + fixedPath;
+                }
+                else {
+                    fixedPath = "http://" + fixedPath;
+                }
+            }
             newPaths[fixedPath] = swagger.paths[p];
         });
         swagger.paths = newPaths;
@@ -118,4 +129,3 @@ class TsFromSwagger {
     }
 }
 exports.TsFromSwagger = TsFromSwagger;
-//# sourceMappingURL=tsFromSwagger.js.map
