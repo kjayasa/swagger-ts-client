@@ -20,9 +20,11 @@ export class TsFromSwagger {
     }
     private async getSwagger() {
        return await getProvider().provide(settings, logger);
-        }
+    }
     private adjustSwaggerPaths(swagger: Swagger.Spec) {
         let base = swagger.basePath;
+        let host: string = swagger.host;
+        let schemes = swagger.schemes;
         const newPaths: {[pathName: string]: Swagger.Path} = {};
 
         if (base && base.endsWith('/')) {
@@ -70,6 +72,16 @@ export class TsFromSwagger {
                 }
 
                 fixedPath = base + fixedPath;
+            }
+
+            fixedPath = (host !== undefined) ? host + fixedPath : fixedPath;
+
+            if(schemes !== undefined && schemes.length > 0){
+                if(schemes.filter(function(x) {return x.toLowerCase() == "https"})){
+                    fixedPath = "https://" + fixedPath;
+                } else {
+                    fixedPath = "http://" + fixedPath;
+                }
             }
 
             newPaths[fixedPath] = swagger.paths[p];
