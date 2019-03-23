@@ -26,4 +26,3 @@ class TypesDefinitionRender extends renderer_1.AbstractRenderer {
     }
 }
 exports.TypesDefinitionRender = TypesDefinitionRender;
-//# sourceMappingURL=typesDefinitionRender.js.map
