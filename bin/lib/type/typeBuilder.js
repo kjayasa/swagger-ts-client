@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const changeCase = require("change-case");
 const type_1 = require("./type");
-const TypeNameInfo_1 = require("./TypeNameInfo");
+const typeNameInfo_1 = require("./typeNameInfo");
 const logger_1 = require("../logger");
 function isBodyParam(param) {
     return param.schema ? true : false;
@@ -15,7 +15,7 @@ class TypeBuilder {
         this.buildTypeCache();
     }
     getTypeName(swaggerTypeName) {
-        return TypeNameInfo_1.TypeNameInfo.fromSwaggerTypeName(swaggerTypeName).typeName;
+        return typeNameInfo_1.TypeNameInfo.fromSwaggerTypeName(swaggerTypeName).typeName;
     }
     buildTypeCache() {
         logger_1.logger.info("Building Types..");
@@ -41,9 +41,9 @@ class TypeBuilder {
         for (const propertyName in properties) {
             if (properties.hasOwnProperty(propertyName)) {
                 const prop = properties[propertyName];
-                let typeName = TypeNameInfo_1.TypeNameInfo.getTypeNameInfoFromSchema(prop);
+                let typeName = typeNameInfo_1.TypeNameInfo.getTypeNameInfoFromSchema(prop);
                 if (typeName.isInlineType) {
-                    typeName = TypeNameInfo_1.TypeNameInfo.fromSwaggerTypeName(type.typeNameInfo.partialTypeName + changeCase.pascalCase(propertyName));
+                    typeName = typeNameInfo_1.TypeNameInfo.fromSwaggerTypeName(type.typeNameInfo.partialTypeName + changeCase.pascalCase(propertyName));
                     this.inlineTypes.set(typeName.fullTypeName, prop);
                 }
                 type.addProperty(propertyName, typeName);
@@ -52,7 +52,7 @@ class TypeBuilder {
         return type;
     }
     getTypeNameInfo(schema) {
-        return TypeNameInfo_1.TypeNameInfo.getTypeNameInfoFromSchema(schema);
+        return typeNameInfo_1.TypeNameInfo.getTypeNameInfoFromSchema(schema);
     }
     getTypeNameInfoParameter(param) {
         const schema = isBodyParam(param) ? param.schema : param;

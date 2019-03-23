@@ -23,7 +23,8 @@ function filterListHelper(...args) {
     let context = args.shift(), options = args.pop(), fliter = args.shift(), take = args.shift() || -1;
     if (context && context instanceof Array && fliter) {
         /* tslint:disable:triple-equals */
-        if (take == -1) {
+        if (take == -1) // using == beacuse take can be string
+         {
             take = context.length;
         }
         /* tslint:enable:triple-equals */
