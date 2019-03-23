@@ -34,7 +34,7 @@ build/Release
 
 # js Build files
 
-/bin
+bin/
 
 # Dependency directories
 node_modules/

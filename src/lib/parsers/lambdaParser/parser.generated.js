@@ -146,7 +146,7 @@ function peg$parse(input, options) {
       peg$c2 = function(args, body) {
           return{
               arguments: args,
-           body: body,
+              body: body,
           };
       },
       peg$c3 = function(arg) { return [arg]; },

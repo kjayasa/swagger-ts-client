@@ -4,23 +4,29 @@
       "indent": [ true, "spaces", 4 ],
       "align": [ true, "statements", "elements", "members" ],  
       "one-line":[true],
-  
       "ban-types": true,
-      "comment-format": true, // 12 errors - commet must start with a space
-      "curly": true, // 2 errors - if satements must be braced
-      "interface-name": true, // 1 errors - iterface name must start with a capitalized I
-      "max-line-length": true, // 74 errors - Exceeds maximum lie length of 120
-      "member-ordering": true, // 19 errors - Declaraion of public instance field not allowed after declaration of private instance field. Instead, this should come after public static methods.
-      "no-empty-interface": true, // 1 errors - A empty interface is equivalent to '{}'.
-      "no-shadowed-variable": true, // 1 errors - Shadowed ame: 'tieredListings'
-      "object-literal-sort-keys": true, // 94 errors - The key 'emplateUrl' is not sorted alphabetically
-      "one-variable-per-declaration": true, // 7 errors - Muliple variable declarations in the same statement are forbidden
-      "only-arrow-functions": true, // 24 errors - on-arrow functions are forbidden
-      "prefer-const": true, // 2 errors - Idetifier 'buckets' is never reassigned; use 'const' instead of 'let'.
-      "radix": true, // 4 errors - Missig radix parameter
-      "variable-name": true, // 15 errors - variable ame must be in lowerCamelCase, PascalCase or UPPER_CASE,
+      "comment-format": true,
+      "curly": true, 
+      "interface-name": true, 
+      "max-line-length":[true, {"limit": 250, "ignore-pattern": "^import |^export {(.*?)}"}], 
+      "member-ordering": [true, {"order": "fields-first"}], 
+      "no-empty-interface": true, 
+      "no-shadowed-variable": true,
+      "object-literal-sort-keys": false, 
+      "one-variable-per-declaration": false, 
+      "only-arrow-functions": false, 
+      "prefer-const": false, 
+      "radix": true,
+      "variable-name": true,
       "max-classes-per-file": true,
-      "import-spacing": true
+      "import-spacing": false,
+      "no-console":false,
+      "no-unnecessary-initializer" : false,
+      "no-var-requires":false,
+      "prefer-for-of":false,
+      "forin":false,
+      "triple-equals":false,
+      "no-empty":false      
     },
     "jsRules": {
         "indent": [ true, "spaces", 4 ],

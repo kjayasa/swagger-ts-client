@@ -23,23 +23,23 @@ export class TsFromSwagger {
     }
     private adjustSwaggerPaths(swagger: Swagger.Spec) {
         let base = swagger.basePath;
-        let host: string = swagger.host;
-        let schemes = swagger.schemes;
+        const host: string = swagger.host;
+        const schemes = swagger.schemes;
         const newPaths: {[pathName: string]: Swagger.Path} = {};
 
-        if (base && base.endsWith('/')) {
+        if (base && base.endsWith("/")) {
             base = base.substring(0, base.length - 2);
         }
 
         const checkPathParam = (name: string, paths: Swagger.Path) => {
             for (const k of Object.keys(paths)) {
-                let params = paths[k].parameters;
+                const params = paths[k].parameters;
                 if (params) {
                     for (let i = 0; i < params.length; i++) {
                         const param = params[i];
 
-                        if (param.in && param.in === 'path' && name === param.name) {
-                            if (param.type === 'string') {
+                        if (param.in && param.in === "path" && name === param.name) {
+                            if (param.type === "string") {
                                 return "encodeURIComponent(" + name + ")";
                             }
                             else {
@@ -48,14 +48,14 @@ export class TsFromSwagger {
                         }
                     }
                 }
-            };
-        }
+            }
+        };
 
-        Object.keys(swagger.paths).forEach(p => {
+        Object.keys(swagger.paths).forEach((p) => {
             let fixedPath = p;
-            if (p.indexOf('{') > -1) {
+            if (p.indexOf("{") > -1) {
                 fixedPath = fixedPath.replace(/(\{.*?\})/gm, (m) => {
-                    m = m.substr(1, m.length-2);
+                    m = m.substr(1, m.length - 2);
                     const val = checkPathParam(m, swagger.paths[p]);
 
                     if (val) {
@@ -64,10 +64,10 @@ export class TsFromSwagger {
                     else {
                         throw Error(`Unknown path parameter "${m}" in "${p}"`);
                     }
-                })
+                });
             }
             if (base) {
-                if (!fixedPath.startsWith('/')) {
+                if (!fixedPath.startsWith("/")) {
                     fixedPath = `/${fixedPath}`;
                 }
 
@@ -76,8 +76,8 @@ export class TsFromSwagger {
 
             fixedPath = (host !== undefined) ? host + fixedPath : fixedPath;
 
-            if(schemes !== undefined && schemes.length > 0){
-                if(schemes.filter(function(x) {return x.toLowerCase() == "https"})){
+            if (schemes !== undefined && schemes.length > 0){
+                if (schemes.filter(function(x) {return x.toLowerCase() == "https"; })){
                     fixedPath = "https://" + fixedPath;
                 } else {
                     fixedPath = "http://" + fixedPath;

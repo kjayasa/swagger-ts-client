@@ -23,32 +23,6 @@ function getTypeAliases(): Array<{alias: string, typeDefinition: string}>{
 
 }
 export class TypeNameInfo{
-    //private parsedResult:ITypeNameParserAst=null;
-    public isInlineType: boolean = false;
-    private genericTypeArgsMap: Map<ITypeNameParserAst, ITypeNameParserAst>= null;
-
-    private static inlineSchemaCount= 1;
-
-    private static genericTypeNames = "TUKABCDEFGHIJLMNOPQRSVWXYZ".split("");
-
-    private static primitiveSwaggerTypes: string[]= ["integer", "number", "string", "boolean"];
-    private static primitiveJsTypes: string[]= ["number", "string", "String", "boolean", "Date", "any", "void", "Array", "Map", "Set"];
-
-    private static primitiveTypesMapping= {
-        "integer+int32": "number",
-        "integer+int64": "number",
-        "number+double": "number",
-        "number+float": "number",
-        "number": "number",
-        "integer": "number",
-        "string": "string",
-        "string+byte": "string",
-        "string+binary": "string",
-        "boolean": "boolean",
-        "string+date": "Date",
-        "string+date-time": "Date",
-        "string+password": "string",
-    };
 
     get typeName(): string{
         if (this.isGeneric){
@@ -70,24 +44,36 @@ export class TypeNameInfo{
         return this.parsedResult.partialTypeName;
     }
 
+    private static inlineSchemaCount = 1;
+
+    private static genericTypeNames = "TUKABCDEFGHIJLMNOPQRSVWXYZ".split("");
+
+    private static primitiveSwaggerTypes: string[] = ["integer", "number", "string", "boolean"];
+    private static primitiveJsTypes: string[] = ["number", "string", "String", "boolean", "Date", "any", "void", "Array", "Map", "Set"];
+
+    private static primitiveTypesMapping = {
+        "integer+int32": "number",
+        "integer+int64": "number",
+        "number+double": "number",
+        "number+float": "number",
+        "number": "number",
+        "integer": "number",
+        "string": "string",
+        "string+byte": "string",
+        "string+binary": "string",
+        "boolean": "boolean",
+        "string+date": "Date",
+        "string+date-time": "Date",
+        "string+password": "string",
+    };
+    //private parsedResult:ITypeNameParserAst=null;
+    public isInlineType: boolean = false;
+    private genericTypeArgsMap: Map<ITypeNameParserAst, ITypeNameParserAst> = null;
+
     constructor(private parsedResult: ITypeNameParserAst){
         this.substituteAliases();
         if (this.isGeneric){
             this.genericTypeArgsMap = new Map(this.parsedResult.genericParams.map((ta, i) => [ta, typeNameParser.parse(TypeNameInfo.genericTypeNames[i])] as [ITypeNameParserAst, ITypeNameParserAst]));
-        }
-    }
-
-    public replaceWithGenericType(propertyTypeName: TypeNameInfo): TypeNameInfo{
-        for ( const [typeArg, genericTypeName] of this.genericTypeArgsMap){
-            propertyTypeName = TypeNameInfo.substitute(propertyTypeName, typeArg, genericTypeName);
-        }
-        return propertyTypeName;
-    }
-    public getComposingTypeNames(filterPrimitive: boolean= false): string[]{
-        if (filterPrimitive){
-           return this.parsedResult.composingTypes.filter((ct) => !TypeNameInfo.isJsPrimitive(ct.partialTypeName)).map((ct) => ct.partialTypeName);
-        }else{
-            return this.parsedResult.composingTypes.map((ct) => ct.partialTypeName);
         }
     }
 
@@ -168,6 +154,20 @@ export class TypeNameInfo{
             }else{
                 typeName.partialTypeName = typedef;
             }
+        }
+    }
+
+    public replaceWithGenericType(propertyTypeName: TypeNameInfo): TypeNameInfo{
+        for ( const [typeArg, genericTypeName] of this.genericTypeArgsMap){
+            propertyTypeName = TypeNameInfo.substitute(propertyTypeName, typeArg, genericTypeName);
+        }
+        return propertyTypeName;
+    }
+    public getComposingTypeNames(filterPrimitive: boolean= false): string[]{
+        if (filterPrimitive){
+           return this.parsedResult.composingTypes.filter((ct) => !TypeNameInfo.isJsPrimitive(ct.partialTypeName)).map((ct) => ct.partialTypeName);
+        }else{
+            return this.parsedResult.composingTypes.map((ct) => ct.partialTypeName);
         }
     }
 

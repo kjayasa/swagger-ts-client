@@ -33,6 +33,19 @@ export class TypeBuilder{
     public getTypeName(swaggerTypeName: string){
         return TypeNameInfo.fromSwaggerTypeName(swaggerTypeName).typeName;
     }
+
+    public getTypeNameInfo(schema: Swagger.BaseSchema): TypeNameInfo{
+        return TypeNameInfo.getTypeNameInfoFromSchema(schema);
+    }
+    public getTypeNameInfoParameter(param: Swagger.Parameter){
+        const schema = isBodyParam(param) ? (param as Swagger.BodyParameter).schema : param;
+        return this.getTypeNameInfo(schema);
+
+    }
+
+    public getAllTypes(): IType[] {
+        return [...this.typeCache.values()];
+    }
     private buildTypeCache(){
         logger.info("Building Types..");
         Object.keys(this.definition).forEach((swaggerTypeName) => {
@@ -72,19 +85,6 @@ export class TypeBuilder{
             }
         }
         return type;
-    }
-
-    public getTypeNameInfo(schema: Swagger.BaseSchema): TypeNameInfo{
-        return TypeNameInfo.getTypeNameInfoFromSchema(schema);
-    }
-    public getTypeNameInfoParameter(param: Swagger.Parameter){
-        const schema = isBodyParam(param) ? (param as Swagger.BodyParameter).schema : param;
-        return this.getTypeNameInfo(schema);
-
-    }
-
-    public getAllTypes(): IType[] {
-        return [...this.typeCache.values()];
     }
 
 }

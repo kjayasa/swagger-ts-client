@@ -28,7 +28,7 @@ const httpVerbs: HttpVerb[] = ["get", "put", "post", "delete", "options", "head"
 
 class OperationsGroup implements IOperationsGroup {
     public operations: Operation[] = [];
-    public importedTypes: string[]= [];
+    public importedTypes: string[] = [];
     constructor(
         public operationsGroupName: string,
     ) {
@@ -52,16 +52,6 @@ export class OperationsBuilder {
         private typeManager: TypeBuilder) {
         this.buildGroups();
     }
-    private getGroup(groupName: string): OperationsGroup{
-        if (this.opsGroups.has(groupName)){
-           return this.opsGroups.get(groupName);
-        }else{
-            const group = new OperationsGroup(groupName);
-            this.opsGroups.set(groupName, group);
-            return group;
-        }
-
-    }
 
     public buildGroups(): void {
         logger.info("Building Groups...");
@@ -83,6 +73,16 @@ export class OperationsBuilder {
 
     public getAllGroups(){
         return [...this.opsGroups.values()] as IOperationsGroup[];
+    }
+    private getGroup(groupName: string): OperationsGroup{
+        if (this.opsGroups.has(groupName)){
+           return this.opsGroups.get(groupName);
+        }else{
+            const group = new OperationsGroup(groupName);
+            this.opsGroups.set(groupName, group);
+            return group;
+        }
+
     }
 
 }

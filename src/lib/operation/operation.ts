@@ -10,7 +10,7 @@ export class Operation implements IOperation {
     public responsesType: string;
     public operationName: string;
     public groupName: string;
-    public importedTypes: string[]= [];
+    public importedTypes: string[] = [];
 
     constructor( public httpVerb: string , public url: string, private swOpr: Swagger.Operation , private typeManager: TypeBuilder ) {
        this.operationName = settings.operations.operationsNameTransformFn(url, httpVerb as HttpVerb, swOpr);

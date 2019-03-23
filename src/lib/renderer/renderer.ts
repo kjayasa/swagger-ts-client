@@ -20,9 +20,9 @@ export interface IRenderer{
 }
 
 export abstract class AbstractRenderer<T> implements IRenderer {
+    protected templatePath: string;
     private template: string;
     private compliedTemplate: HandlebarsTemplateDelegate<any>;
-    protected templatePath: string;
     constructor(options: {
         template?: string,
         templatePath?: string},
@@ -38,6 +38,21 @@ export abstract class AbstractRenderer<T> implements IRenderer {
             }
 
     }
+
+    public async render(stream: fs.WriteStream, obj: T) {
+        if (!this.compliedTemplate){
+             await this.compileTemplate();
+        }
+        try{
+            const compiled = this.compliedTemplate(this.getRenderContext(obj));
+            stream.write(compiled);
+        }catch (e) {
+            throw new Error(`Error compiling ${stream.path} : obj "${obj} \n ${e}`);
+        }
+
+    }
+
+    protected abstract getRenderContext(obj: T): {};
 
     private async loadTemplate(): Promise<string>{
         return readFile(this.templatePath, "utf8") as Promise<string>;
@@ -61,19 +76,4 @@ export abstract class AbstractRenderer<T> implements IRenderer {
         });
 
     }
-
-    public async render(stream: fs.WriteStream, obj: T) {
-        if (!this.compliedTemplate){
-             await this.compileTemplate();
-        }
-        try{
-            const compiled = this.compliedTemplate(this.getRenderContext(obj));
-            stream.write(compiled);
-        }catch (e) {
-            throw new Error(`Error compiling ${stream.path} : obj "${obj} \n ${e}`);
-        }
-
-    }
-
-    protected abstract getRenderContext(obj: T): {};
 }
