@@ -1,6 +1,6 @@
 {
   "name": "swagger-ts-client",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "description": "A tool to generate typescript http clients and types from swagger definitions",
   "main": "./bin/main.js",
   "bin": "./bin/main.js",
@@ -12,7 +12,7 @@
     "types",
     "template",
     "handlebar",
-    "http client"    
+    "http client"
   ],
   "scripts": {
     "start": "node ./",
@@ -27,23 +27,22 @@
   "author": "kjayasa <gitdev@jayk.me>",
   "license": "ISC",
   "dependencies": {
-    "change-case": "^3.0.1",
-    "command-line-args": "^4.0.7",
-    "commander": "^2.11.0",
-    "handlebars": "^4.0.10",
-    "mixin-deep": "^1.2.0",
-    "mkdirp": "^0.5.1",
-    "request": "^2.83.0",
-    "request-promise-native": "^1.0.5",
+    "change-case": "3.0.1",
+    "command-line-args": "5.0.2",
+    "commander": "2.19.0",
+    "handlebars": "4.1.1",
+    "mixin-deep": "2.0.0",
+    "mkdirp": "0.5.1",
+    "request": "2.88.0",
+    "request-promise-native": "1.0.7",
     "swagger-schema-official": "^2.0.0-bab6bed"
   },
   "devDependencies": {
-    "@types/handlebars": "^4.0.36",
     "@types/node": "^8.0.21",
-    "@types/swagger-schema-official": "^2.0.5",
-    "pegjs": "^0.10.0",
-    "tslint": "^5.7.0",
-    "typescript": "^2.4.2"
+    "@types/swagger-schema-official": "2.0.15",
+    "pegjs": "0.10.0",
+    "tslint": "5.14.0",
+    "typescript": "3.3.4000"
   },
   "repository": "https://github.com/kjayasa/swagger-ts-client.git"
 }
