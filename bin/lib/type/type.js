@@ -16,11 +16,16 @@ class Type {
     get partialTypeName() {
         return this.typeNameInfo.partialTypeName;
     }
-    addProperty(propertyName, propertyType) {
+    addProperty(propertyName, propertyType, required) {
         if (this.isGeneric) {
             propertyType = this.typeNameInfo.replaceWithGenericType(propertyType);
         }
-        this.properties.push({ propertyName, typeName: propertyType.fullTypeName });
+        this.properties.push({
+            propertyName,
+            typeName: propertyType.fullTypeName,
+            required: required ? "" : "?",
+        });
     }
 }
 exports.Type = Type;
+//# sourceMappingURL=type.js.map

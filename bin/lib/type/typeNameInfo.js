@@ -45,20 +45,6 @@ class TypeNameInfo {
     get partialTypeName() {
         return this.parsedResult.partialTypeName;
     }
-    replaceWithGenericType(propertyTypeName) {
-        for (const [typeArg, genericTypeName] of this.genericTypeArgsMap) {
-            propertyTypeName = TypeNameInfo.substitute(propertyTypeName, typeArg, genericTypeName);
-        }
-        return propertyTypeName;
-    }
-    getComposingTypeNames(filterPrimitive = false) {
-        if (filterPrimitive) {
-            return this.parsedResult.composingTypes.filter((ct) => !TypeNameInfo.isJsPrimitive(ct.partialTypeName)).map((ct) => ct.partialTypeName);
-        }
-        else {
-            return this.parsedResult.composingTypes.map((ct) => ct.partialTypeName);
-        }
-    }
     static fromSwaggerTypeName(swaggerTypeName) {
         return new TypeNameInfo(parsers_1.typeNameParser.parse(swaggerTypeName));
     }
@@ -130,6 +116,20 @@ class TypeNameInfo {
             }
         }
     }
+    replaceWithGenericType(propertyTypeName) {
+        for (const [typeArg, genericTypeName] of this.genericTypeArgsMap) {
+            propertyTypeName = TypeNameInfo.substitute(propertyTypeName, typeArg, genericTypeName);
+        }
+        return propertyTypeName;
+    }
+    getComposingTypeNames(filterPrimitive = false) {
+        if (filterPrimitive) {
+            return this.parsedResult.composingTypes.filter((ct) => !TypeNameInfo.isJsPrimitive(ct.partialTypeName)).map((ct) => ct.partialTypeName);
+        }
+        else {
+            return this.parsedResult.composingTypes.map((ct) => ct.partialTypeName);
+        }
+    }
     substituteAliases() {
         if (settings_1.settings.type.typeAliases) {
             getTypeAliases().forEach((alias) => {
@@ -158,3 +158,4 @@ TypeNameInfo.primitiveTypesMapping = {
     "string+password": "string",
 };
 exports.TypeNameInfo = TypeNameInfo;
+//# sourceMappingURL=typeNameInfo.js.map

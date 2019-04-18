@@ -33,6 +33,20 @@ class AbstractRenderer {
             this.templatePath = options.templatePath;
         }
     }
+    render(stream, obj) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!this.compliedTemplate) {
+                yield this.compileTemplate();
+            }
+            try {
+                const compiled = this.compliedTemplate(this.getRenderContext(obj));
+                stream.write(compiled);
+            }
+            catch (e) {
+                throw new Error(`Error compiling ${stream.path} : obj "${obj} \n ${e}`);
+            }
+        });
+    }
     loadTemplate() {
         return __awaiter(this, void 0, void 0, function* () {
             return fsUtil_1.readFile(this.templatePath, "utf8");
@@ -54,19 +68,6 @@ class AbstractRenderer {
             });
         });
     }
-    render(stream, obj) {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (!this.compliedTemplate) {
-                yield this.compileTemplate();
-            }
-            try {
-                const compiled = this.compliedTemplate(this.getRenderContext(obj));
-                stream.write(compiled);
-            }
-            catch (e) {
-                throw new Error(`Error compiling ${stream.path} : obj "${obj} \n ${e}`);
-            }
-        });
-    }
 }
 exports.AbstractRenderer = AbstractRenderer;
+//# sourceMappingURL=renderer.js.map

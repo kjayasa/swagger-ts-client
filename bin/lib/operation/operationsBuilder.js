@@ -24,16 +24,6 @@ class OperationsBuilder {
         this.opsGroups = new Map();
         this.buildGroups();
     }
-    getGroup(groupName) {
-        if (this.opsGroups.has(groupName)) {
-            return this.opsGroups.get(groupName);
-        }
-        else {
-            const group = new OperationsGroup(groupName);
-            this.opsGroups.set(groupName, group);
-            return group;
-        }
-    }
     buildGroups() {
         logger_1.logger.info("Building Groups...");
         for (const url in this.paths) {
@@ -52,5 +42,16 @@ class OperationsBuilder {
     getAllGroups() {
         return [...this.opsGroups.values()];
     }
+    getGroup(groupName) {
+        if (this.opsGroups.has(groupName)) {
+            return this.opsGroups.get(groupName);
+        }
+        else {
+            const group = new OperationsGroup(groupName);
+            this.opsGroups.set(groupName, group);
+            return group;
+        }
+    }
 }
 exports.OperationsBuilder = OperationsBuilder;
+//# sourceMappingURL=operationsBuilder.js.map
