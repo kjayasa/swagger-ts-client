@@ -22,10 +22,16 @@ export class Type  implements IType{
         return this.typeNameInfo.partialTypeName;
     }
 
-    public addProperty(propertyName: string, propertyType: TypeNameInfo){
+    public addProperty(propertyName: string, propertyType: TypeNameInfo, required: boolean){
         if (this.isGeneric){
             propertyType = this.typeNameInfo.replaceWithGenericType(propertyType);
         }
-        this.properties.push({propertyName, typeName: propertyType.fullTypeName});
+        this.properties.push(
+            {
+                propertyName,
+                typeName: propertyType.fullTypeName,
+                required: required ? "" : "?",
+            },
+        );
     }
 }
