@@ -27,4 +27,3 @@ main()
 }).catch((error) => {
     lib_2.logger.error(error);
 });
-//# sourceMappingURL=main.js.map

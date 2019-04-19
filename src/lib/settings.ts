@@ -41,6 +41,7 @@ export interface ISettings{
         outPutPath?: string
         outFileNameTransformFn?: IGroupFileNameTransformFn,
         templateTag?: any,
+        useHostAndBasePath?: boolean,
     };
 
 }
@@ -62,6 +63,7 @@ export const settings: ISettings  = {
         templateFile: path.join(__dirname, "..", "..", "templates", "operationsGroup.handlebars"),
         outPutPath: path.join(process.cwd(), "serverTypes", "httpClients"),
         outFileNameTransformFn: operationsGroupFilenameFn,
+        useHostAndBasePath: true,
     },
 };
 

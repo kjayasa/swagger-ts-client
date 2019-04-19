@@ -23,6 +23,7 @@ exports.settings = {
         templateFile: path.join(__dirname, "..", "..", "templates", "operationsGroup.handlebars"),
         outPutPath: path.join(process.cwd(), "serverTypes", "httpClients"),
         outFileNameTransformFn: operationsGroupFilenameFn,
+        useHostAndBasePath: true,
     },
 };
 function operationsGroupFilenameFn(groupName) {
@@ -64,4 +65,3 @@ function loadSettings(configFile = null, override = {}) {
     return exports.settings;
 }
 exports.loadSettings = loadSettings;
-//# sourceMappingURL=settings.js.map

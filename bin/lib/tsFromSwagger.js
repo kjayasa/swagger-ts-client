@@ -72,19 +72,21 @@ class TsFromSwagger {
                     }
                 });
             }
-            if (base) {
-                if (!fixedPath.startsWith("/")) {
-                    fixedPath = `/${fixedPath}`;
+            if (settings_1.settings.operations.useHostAndBasePath) {
+                if (base) {
+                    if (!fixedPath.startsWith("/")) {
+                        fixedPath = `/${fixedPath}`;
+                    }
+                    fixedPath = base + fixedPath;
                 }
-                fixedPath = base + fixedPath;
-            }
-            fixedPath = (host !== undefined) ? host + fixedPath : fixedPath;
-            if (schemes !== undefined && schemes.length > 0) {
-                if (schemes.filter(function (x) { return x.toLowerCase() == "https"; })) {
-                    fixedPath = "https://" + fixedPath;
-                }
-                else {
-                    fixedPath = "http://" + fixedPath;
+                fixedPath = host !== undefined ? host + fixedPath : fixedPath;
+                if (schemes !== undefined && schemes.length > 0) {
+                    if (schemes.filter(function (x) { return x.toLowerCase() == "https"; })) {
+                        fixedPath = "https://" + fixedPath;
+                    }
+                    else {
+                        fixedPath = "http://" + fixedPath;
+                    }
                 }
             }
             newPaths[fixedPath] = swagger.paths[p];
@@ -128,4 +130,3 @@ class TsFromSwagger {
     }
 }
 exports.TsFromSwagger = TsFromSwagger;
-//# sourceMappingURL=tsFromSwagger.js.map

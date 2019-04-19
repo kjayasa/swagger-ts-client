@@ -66,21 +66,23 @@ export class TsFromSwagger {
                     }
                 });
             }
-            if (base) {
-                if (!fixedPath.startsWith("/")) {
-                    fixedPath = `/${fixedPath}`;
+            if (settings.operations.useHostAndBasePath) {
+                if (base) {
+                    if (!fixedPath.startsWith("/")) {
+                        fixedPath = `/${fixedPath}`;
+                    }
+
+                    fixedPath = base + fixedPath;
                 }
 
-                fixedPath = base + fixedPath;
-            }
+                fixedPath = host !== undefined ? host + fixedPath : fixedPath;
 
-            fixedPath = (host !== undefined) ? host + fixedPath : fixedPath;
-
-            if (schemes !== undefined && schemes.length > 0){
-                if (schemes.filter(function(x) {return x.toLowerCase() == "https"; })){
-                    fixedPath = "https://" + fixedPath;
-                } else {
-                    fixedPath = "http://" + fixedPath;
+                if (schemes !== undefined && schemes.length > 0){
+                    if (schemes.filter(function(x) {return x.toLowerCase() == "https"; })){
+                        fixedPath = "https://" + fixedPath;
+                    } else {
+                        fixedPath = "http://" + fixedPath;
+                    }
                 }
             }
 
