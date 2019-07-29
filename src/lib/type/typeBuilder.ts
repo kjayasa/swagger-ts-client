@@ -18,6 +18,7 @@ export interface IProperty{
     propertyName: string;
     typeName: string;
     required: string;
+    enumValue?: Array<string | boolean | number | {}>;
 }
 
 export interface ISwaggerDefinition{
@@ -69,7 +70,6 @@ export class TypeBuilder{
 
     }
     private  buildType(swaggerTypeName: string, swaggerType: Swagger.Schema): IType {
-
        // let fullTypeName=this.splitGeneric(swaggerTypeName);
         const type = new Type(swaggerTypeName);
 
@@ -83,7 +83,7 @@ export class TypeBuilder{
                     typeName = TypeNameInfo.fromSwaggerTypeName(type.typeNameInfo.partialTypeName + changeCase.pascalCase(propertyName));
                     this.inlineTypes.set(typeName.fullTypeName, prop);
                  }
-                type.addProperty(propertyName, typeName, required.indexOf(propertyName) != -1);
+                type.addProperty(propertyName, typeName, required.indexOf(propertyName) != -1, prop.enum);
             }
         }
         return type;

@@ -16,7 +16,7 @@ class Type {
     get partialTypeName() {
         return this.typeNameInfo.partialTypeName;
     }
-    addProperty(propertyName, propertyType, required) {
+    addProperty(propertyName, propertyType, required, enumValue) {
         if (this.isGeneric) {
             propertyType = this.typeNameInfo.replaceWithGenericType(propertyType);
         }
@@ -24,6 +24,7 @@ class Type {
             propertyName,
             typeName: propertyType.fullTypeName,
             required: required ? "" : "?",
+            enumValue: enumValue,
         });
     }
 }
