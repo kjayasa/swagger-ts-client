@@ -1,6 +1,6 @@
 {
   "name": "swagger-ts-client",
-  "version": "0.9.8-no-base",
+  "version": "0.9.8-secfix",
   "description": "A tool to generate typescript http clients and types from swagger definitions",
   "main": "./bin/main.js",
   "bin": "./bin/main.js",
