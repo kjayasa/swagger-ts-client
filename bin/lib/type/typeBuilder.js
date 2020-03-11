@@ -17,6 +17,16 @@ class TypeBuilder {
     getTypeName(swaggerTypeName) {
         return typeNameInfo_1.TypeNameInfo.fromSwaggerTypeName(swaggerTypeName).typeName;
     }
+    getTypeNameInfo(schema) {
+        return typeNameInfo_1.TypeNameInfo.getTypeNameInfoFromSchema(schema);
+    }
+    getTypeNameInfoParameter(param) {
+        const schema = isBodyParam(param) ? param.schema : param;
+        return this.getTypeNameInfo(schema);
+    }
+    getAllTypes() {
+        return [...this.typeCache.values()];
+    }
     buildTypeCache() {
         logger_1.logger.info("Building Types..");
         Object.keys(this.definition).forEach((swaggerTypeName) => {
@@ -38,6 +48,7 @@ class TypeBuilder {
         // let fullTypeName=this.splitGeneric(swaggerTypeName);
         const type = new type_1.Type(swaggerTypeName);
         const properties = swaggerType.properties;
+        const required = swaggerType.required || [];
         for (const propertyName in properties) {
             if (properties.hasOwnProperty(propertyName)) {
                 const prop = properties[propertyName];
@@ -46,20 +57,10 @@ class TypeBuilder {
                     typeName = typeNameInfo_1.TypeNameInfo.fromSwaggerTypeName(type.typeNameInfo.partialTypeName + changeCase.pascalCase(propertyName));
                     this.inlineTypes.set(typeName.fullTypeName, prop);
                 }
-                type.addProperty(propertyName, typeName);
+                type.addProperty(propertyName, typeName, required.indexOf(propertyName) != -1, prop.enum);
             }
         }
         return type;
-    }
-    getTypeNameInfo(schema) {
-        return typeNameInfo_1.TypeNameInfo.getTypeNameInfoFromSchema(schema);
-    }
-    getTypeNameInfoParameter(param) {
-        const schema = isBodyParam(param) ? param.schema : param;
-        return this.getTypeNameInfo(schema);
-    }
-    getAllTypes() {
-        return [...this.typeCache.values()];
     }
 }
 exports.TypeBuilder = TypeBuilder;

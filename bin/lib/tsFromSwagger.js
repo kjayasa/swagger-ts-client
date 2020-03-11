@@ -34,20 +34,20 @@ class TsFromSwagger {
     }
     adjustSwaggerPaths(swagger) {
         let base = swagger.basePath;
-        let host = swagger.host;
-        let schemes = swagger.schemes;
+        const host = swagger.host;
+        const schemes = swagger.schemes;
         const newPaths = {};
-        if (base && base.endsWith('/')) {
+        if (base && base.endsWith("/")) {
             base = base.substring(0, base.length - 2);
         }
         const checkPathParam = (name, paths) => {
             for (const k of Object.keys(paths)) {
-                let params = paths[k].parameters;
+                const params = paths[k].parameters;
                 if (params) {
                     for (let i = 0; i < params.length; i++) {
                         const param = params[i];
-                        if (param.in && param.in === 'path' && name === param.name) {
-                            if (param.type === 'string') {
+                        if (param.in && param.in === "path" && name === param.name) {
+                            if (param.type === "string") {
                                 return "encodeURIComponent(" + name + ")";
                             }
                             else {
@@ -57,11 +57,10 @@ class TsFromSwagger {
                     }
                 }
             }
-            ;
         };
-        Object.keys(swagger.paths).forEach(p => {
+        Object.keys(swagger.paths).forEach((p) => {
             let fixedPath = p;
-            if (p.indexOf('{') > -1) {
+            if (p.indexOf("{") > -1) {
                 fixedPath = fixedPath.replace(/(\{.*?\})/gm, (m) => {
                     m = m.substr(1, m.length - 2);
                     const val = checkPathParam(m, swagger.paths[p]);
@@ -73,19 +72,21 @@ class TsFromSwagger {
                     }
                 });
             }
-            if (base) {
-                if (!fixedPath.startsWith('/')) {
-                    fixedPath = `/${fixedPath}`;
+            if (settings_1.settings.operations.useHostAndBasePath) {
+                if (base) {
+                    if (!fixedPath.startsWith("/")) {
+                        fixedPath = `/${fixedPath}`;
+                    }
+                    fixedPath = base + fixedPath;
                 }
-                fixedPath = base + fixedPath;
-            }
-            fixedPath = (host !== undefined) ? host + fixedPath : fixedPath;
-            if (schemes !== undefined && schemes.length > 0) {
-                if (schemes.filter(function (x) { return x.toLowerCase() == "https"; })) {
-                    fixedPath = "https://" + fixedPath;
-                }
-                else {
-                    fixedPath = "http://" + fixedPath;
+                fixedPath = host !== undefined ? host + fixedPath : fixedPath;
+                if (schemes !== undefined && schemes.length > 0) {
+                    if (schemes.filter(function (x) { return x.toLowerCase() == "https"; })) {
+                        fixedPath = "https://" + fixedPath;
+                    }
+                    else {
+                        fixedPath = "http://" + fixedPath;
+                    }
                 }
             }
             newPaths[fixedPath] = swagger.paths[p];
