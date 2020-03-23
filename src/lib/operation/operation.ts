@@ -48,6 +48,7 @@ export class Operation implements IOperation {
             inBody: param.in === "body",
             inPath: param.in === "path",
             inQuery: param.in === "query",
+            required: param.required,
         } as IOperationParam;
     }
 

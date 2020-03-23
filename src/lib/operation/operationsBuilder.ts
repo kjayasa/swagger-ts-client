@@ -22,6 +22,7 @@ export interface IOperationParam {
     paramType: string;
     inBody: boolean;
     inPath: Boolean;
+    required: Boolean;
 }
 
 const httpVerbs: HttpVerb[] = ["get", "put", "post", "delete", "options", "head", "patch"];
