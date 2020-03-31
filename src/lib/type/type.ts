@@ -5,6 +5,7 @@ export class Type  implements IType{
 
     public properties: IProperty[] = [];
     public typeNameInfo: TypeNameInfo;
+    public interfaces: string[] = [];
 
     constructor(public swaggerTypeName: string){
         this.typeNameInfo = TypeNameInfo.fromSwaggerTypeName(swaggerTypeName);
@@ -12,6 +13,13 @@ export class Type  implements IType{
 
     get typeName(): string {
         return this.typeNameInfo.typeName;
+    }
+
+    get extendsClause(): string {
+        if (this.interfaces.length === 0) {
+            return "";
+        }
+        return `extends ${this.interfaces.join(",")}`;
     }
 
     get isGeneric(): boolean{
@@ -34,5 +42,9 @@ export class Type  implements IType{
                 enumValue,
             },
         );
+    }
+
+    public addInterface(interfaceName: string) {
+        this.interfaces.push(interfaceName);
     }
 }

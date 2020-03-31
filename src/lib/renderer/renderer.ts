@@ -19,6 +19,9 @@ export interface IRenderer{
     render(stream: fs.WriteStream, obj: any);
 }
 
+export type StringConsumer = (s: string) => void;
+export type StreamOrStringConsumer = fs.WriteStream | StringConsumer;
+
 export abstract class AbstractRenderer<T> implements IRenderer {
     protected templatePath: string;
     private template: string;
@@ -39,15 +42,23 @@ export abstract class AbstractRenderer<T> implements IRenderer {
 
     }
 
-    public async render(stream: fs.WriteStream, obj: T) {
+    public async render(stream: fs.WriteStream | StringConsumer, obj: T) {
         if (!this.compliedTemplate){
              await this.compileTemplate();
         }
         try{
             const compiled = this.compliedTemplate(this.getRenderContext(obj));
-            stream.write(compiled);
+            if (stream instanceof fs.WriteStream) {
+                stream.write(compiled);
+            } else {
+                stream(compiled);
+            }
+
         }catch (e) {
-            throw new Error(`Error compiling ${stream.path} : obj "${obj} \n ${e}`);
+            if (stream instanceof fs.WriteStream) {
+                throw new Error(`Error compiling ${stream.path} : obj "${obj} \n ${e}`);
+            }
+            throw e;
         }
 
     }
