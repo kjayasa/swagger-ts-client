@@ -14,6 +14,7 @@ export interface IType{
     readonly swaggerTypeName: string;
     readonly properties?: IProperty[];
     readonly interfaces?: string[];
+    readonly extendsClause: string;
 }
 export interface IProperty{
     propertyName: string;
