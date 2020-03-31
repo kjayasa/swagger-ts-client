@@ -5,6 +5,7 @@ export class Type  implements IType{
 
     public properties: IProperty[] = [];
     public typeNameInfo: TypeNameInfo;
+    public interfaces: string[] = [];
 
     constructor(public swaggerTypeName: string){
         this.typeNameInfo = TypeNameInfo.fromSwaggerTypeName(swaggerTypeName);
@@ -34,5 +35,9 @@ export class Type  implements IType{
                 enumValue,
             },
         );
+    }
+
+    public addInterface(interfaceName: string) {
+        this.interfaces.push(interfaceName);
     }
 }

@@ -73,7 +73,7 @@ export class TypeBuilder{
        // let fullTypeName=this.splitGeneric(swaggerTypeName);
         const type = new Type(swaggerTypeName);
 
-        const properties = swaggerType.properties;
+        const properties = this.collectProperties(swaggerType);
         const required = swaggerType.required || [];
         for (const propertyName in properties) {
             if (properties.hasOwnProperty(propertyName)) {
@@ -87,6 +87,23 @@ export class TypeBuilder{
             }
         }
         return type;
+    }
+
+    private collectProperties(swaggerType: Swagger.Schema): {[propertyName: string]: Swagger.Schema}  {
+        if (swaggerType.properties) {
+            return swaggerType.properties;
+        }
+        if (swaggerType.allOf) {
+            let res = {};
+            swaggerType.allOf.forEach(st => {
+                res = {
+                    ...res,
+                    ...this.collectProperties(st)
+                }
+            });
+            return res;
+        }
+        return {};
     }
 
 }
