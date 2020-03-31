@@ -27,6 +27,13 @@ class TypeBuilder {
     getAllTypes() {
         return [...this.typeCache.values()];
     }
+    findType(name) {
+        return this.getAllTypes()
+            .find((t) => t.swaggerTypeName === name);
+    }
+    findProp(type, propName) {
+        return type.properties.find((p) => p.propertyName === propName);
+    }
     buildTypeCache() {
         logger_1.logger.info("Building Types..");
         Object.keys(this.definition).forEach((swaggerTypeName) => {
@@ -47,7 +54,7 @@ class TypeBuilder {
     buildType(swaggerTypeName, swaggerType) {
         // let fullTypeName=this.splitGeneric(swaggerTypeName);
         const type = new type_1.Type(swaggerTypeName);
-        const properties = swaggerType.properties;
+        const properties = this.collectProperties(swaggerType);
         const required = swaggerType.required || [];
         for (const propertyName in properties) {
             if (properties.hasOwnProperty(propertyName)) {
@@ -60,7 +67,32 @@ class TypeBuilder {
                 type.addProperty(propertyName, typeName, required.indexOf(propertyName) != -1, prop.enum);
             }
         }
+        this.collectInterfaces(swaggerType).forEach((i) => type.addInterface(i));
         return type;
+    }
+    collectProperties(swaggerType) {
+        if (swaggerType.properties) {
+            return swaggerType.properties;
+        }
+        if (swaggerType.allOf) {
+            let res = {};
+            swaggerType.allOf.forEach((st) => {
+                res = Object.assign({}, res, this.collectProperties(st));
+            });
+            return res;
+        }
+        return {};
+    }
+    collectInterfaces(swaggerType) {
+        if (swaggerType.$ref) {
+            return [swaggerType.$ref.substring("#/definitions/".length)];
+        }
+        if (swaggerType.allOf) {
+            let res = [];
+            swaggerType.allOf.forEach((s) => res = res.concat(this.collectInterfaces(s)));
+            return res;
+        }
+        return [];
     }
 }
 exports.TypeBuilder = TypeBuilder;
