@@ -67,3 +67,6 @@ typings/
 ts-client.config.js
 
 tmp
+
+.idea
+*.iml

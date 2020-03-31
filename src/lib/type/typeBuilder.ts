@@ -13,6 +13,7 @@ export interface IType{
     readonly typeName: string;
     readonly swaggerTypeName: string;
     readonly properties?: IProperty[];
+    readonly interfaces?: string[];
 }
 export interface IProperty{
     propertyName: string;
@@ -73,7 +74,7 @@ export class TypeBuilder{
        // let fullTypeName=this.splitGeneric(swaggerTypeName);
         const type = new Type(swaggerTypeName);
 
-        const properties = swaggerType.properties;
+        const properties = this.collectProperties(swaggerType);
         const required = swaggerType.required || [];
         for (const propertyName in properties) {
             if (properties.hasOwnProperty(propertyName)) {
@@ -86,7 +87,49 @@ export class TypeBuilder{
                 type.addProperty(propertyName, typeName, required.indexOf(propertyName) != -1, prop.enum);
             }
         }
+        this.collectInterfaces(swaggerType).forEach(i =>
+            type.addInterface(i)
+        );
         return type;
     }
 
+    private collectProperties(swaggerType: Swagger.Schema): {[propertyName: string]: Swagger.Schema}  {
+        if (swaggerType.properties) {
+            return swaggerType.properties;
+        }
+        if (swaggerType.allOf) {
+            let res = {};
+            swaggerType.allOf.forEach(st => {
+                res = {
+                    ...res,
+                    ...this.collectProperties(st)
+                }
+            });
+            return res;
+        }
+        return {};
+    }
+
+    private collectInterfaces(swaggerType: Swagger.Schema): string[] {
+        if (swaggerType.$ref) {
+            return [ swaggerType.$ref.substring("#/definitions/".length) ];
+        }
+        if (swaggerType.allOf) {
+            let res = [];
+            swaggerType.allOf.forEach(s =>
+                res = res.concat(this.collectInterfaces(s))
+            );
+            return res;
+        }
+        return [];
+    }
+
+    public findType(name: string): IType | undefined {
+        return this.getAllTypes()
+            .find(t => t.swaggerTypeName === name);
+    }
+
+    public findProp(type: IType, propName: string): IProperty | undefined {
+        return type.properties.find(p => p.propertyName === propName)
+    }
 }
