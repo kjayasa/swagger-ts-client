@@ -55,7 +55,7 @@ peg$SyntaxError.buildMessage = function(expected, found) {
 
         other: function(expectation) {
           return expectation.description;
-        },
+        }
       };
 
   function hex(ch) {
@@ -64,28 +64,28 @@ peg$SyntaxError.buildMessage = function(expected, found) {
 
   function literalEscape(s) {
     return s
-      .replace(/\\/g, "\\\\")
+      .replace(/\\/g, '\\\\')
       .replace(/"/g,  '\\"')
-      .replace(/\0/g, "\\0")
-      .replace(/\t/g, "\\t")
-      .replace(/\n/g, "\\n")
-      .replace(/\r/g, "\\r")
-      .replace(/[\x00-\x0F]/g,          function(ch) { return "\\x0" + hex(ch); })
-      .replace(/[\x10-\x1F\x7F-\x9F]/g, function(ch) { return "\\x"  + hex(ch); });
+      .replace(/\0/g, '\\0')
+      .replace(/\t/g, '\\t')
+      .replace(/\n/g, '\\n')
+      .replace(/\r/g, '\\r')
+      .replace(/[\x00-\x0F]/g,          function(ch) { return '\\x0' + hex(ch); })
+      .replace(/[\x10-\x1F\x7F-\x9F]/g, function(ch) { return '\\x'  + hex(ch); });
   }
 
   function classEscape(s) {
     return s
-      .replace(/\\/g, "\\\\")
-      .replace(/\]/g, "\\]")
-      .replace(/\^/g, "\\^")
-      .replace(/-/g,  "\\-")
-      .replace(/\0/g, "\\0")
-      .replace(/\t/g, "\\t")
-      .replace(/\n/g, "\\n")
-      .replace(/\r/g, "\\r")
-      .replace(/[\x00-\x0F]/g,          function(ch) { return "\\x0" + hex(ch); })
-      .replace(/[\x10-\x1F\x7F-\x9F]/g, function(ch) { return "\\x"  + hex(ch); });
+      .replace(/\\/g, '\\\\')
+      .replace(/\]/g, '\\]')
+      .replace(/\^/g, '\\^')
+      .replace(/-/g,  '\\-')
+      .replace(/\0/g, '\\0')
+      .replace(/\t/g, '\\t')
+      .replace(/\n/g, '\\n')
+      .replace(/\r/g, '\\r')
+      .replace(/[\x00-\x0F]/g,          function(ch) { return '\\x0' + hex(ch); })
+      .replace(/[\x10-\x1F\x7F-\x9F]/g, function(ch) { return '\\x'  + hex(ch); });
   }
 
   function describeExpectation(expectation) {
@@ -142,13 +142,13 @@ function peg$parse(input, options) {
       peg$startRuleFunction  = peg$parseTypeName,
 
       peg$c0 = function(partial, typeParams) {
-         return new TypeName(partial, typeParams);
+         return new TypeName(partial,typeParams);
       },
       peg$c1 = "<",
       peg$c2 = peg$literalExpectation("<", false),
       peg$c3 = ">",
       peg$c4 = peg$literalExpectation(">", false),
-      peg$c5 = function(tp) {return tp; },
+      peg$c5 = function(tp) {return tp},
       peg$c6 = "[",
       peg$c7 = peg$literalExpectation("[", false),
       peg$c8 = "]",
@@ -159,11 +159,11 @@ function peg$parse(input, options) {
         return type;
       },
       peg$c13 = function(firstTypeParam, typelist) {
-        if (firstTypeParam){
-          let ret = [firstTypeParam];
+        if(firstTypeParam){
+          let ret=[firstTypeParam];
 
-          if (typelist){
-            Array.prototype.push.apply(ret, typelist);
+          if(typelist){
+            Array.prototype.push.apply(ret,typelist);
             }
 
           return ret;
@@ -175,7 +175,7 @@ function peg$parse(input, options) {
       peg$c14 = /^[A-Za-z0-9$_]/,
       peg$c15 = peg$classExpectation([["A", "Z"], ["a", "z"], ["0", "9"], "$", "_"], false, false),
       peg$c16 = function() {
-          return text();
+      	return text();
       },
       peg$c17 = /^[" "\t]/,
       peg$c18 = peg$classExpectation(["\"", " ", "\"", "\t"], false, false),
@@ -206,17 +206,17 @@ function peg$parse(input, options) {
   }
 
   function expected(description, location) {
-    location = location !== void 0 ? location : peg$computeLocation(peg$savedPos, peg$currPos);
+    location = location !== void 0 ? location : peg$computeLocation(peg$savedPos, peg$currPos)
 
     throw peg$buildStructuredError(
       [peg$otherExpectation(description)],
       input.substring(peg$savedPos, peg$currPos),
-      location,
+      location
     );
   }
 
   function error(message, location) {
-    location = location !== void 0 ? location : peg$computeLocation(peg$savedPos, peg$currPos);
+    location = location !== void 0 ? location : peg$computeLocation(peg$savedPos, peg$currPos)
 
     throw peg$buildSimpleError(message, location);
   }
@@ -255,7 +255,7 @@ function peg$parse(input, options) {
       details = peg$posDetailsCache[p];
       details = {
         line:   details.line,
-        column: details.column,
+        column: details.column
       };
 
       while (p < pos) {
@@ -282,13 +282,13 @@ function peg$parse(input, options) {
       start: {
         offset: startPos,
         line:   startPosDetails.line,
-        column: startPosDetails.column,
+        column: startPosDetails.column
       },
       end: {
         offset: endPos,
         line:   endPosDetails.line,
-        column: endPosDetails.column,
-      },
+        column: endPosDetails.column
+      }
     };
   }
 
@@ -312,7 +312,7 @@ function peg$parse(input, options) {
       peg$SyntaxError.buildMessage(expected, found),
       expected,
       found,
-      location,
+      location
     );
   }
 
@@ -590,37 +590,39 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  class TypeName{
-        constructor(partialName, typeParams){
-            this.partialTypeName = partialName;
-            this.genericParams = typeParams;
+
+    class TypeName{
+        constructor(partialName,typeParams){
+            this.partialTypeName=partialName;
+            this.genericParams=typeParams;
         }
-        get fullTypeName(){
-            if (this.genericParams && this.genericParams.length){
-              return `${this.partialTypeName}<${this.geneticTypeParam}>`;
+         get fullTypeName(){
+            if(this.genericParams && this.genericParams.length){
+              return `${this.partialTypeName}<${this.geneticTypeParam}>`
             }else{
-              return this.partialTypeName;
+              return this.partialTypeName
             }
           }
         get geneticTypeParam(){
-            if (this.genericParams && this.genericParams.length){
-                return this.genericParams.map(tp => tp.fullTypeName).join();
+            if(this.genericParams && this.genericParams.length){
+                return this.genericParams.map(tp=>tp.fullTypeName).join();
             }else{
-                return "";
+                return ""
             }
         }
         get composingTypes(){
-            let ret = [this] ;
-            if (this.genericParams && this.genericParams.length){
-                this.genericParams.forEach(tp => tp.composingTypes.forEach(t => {
-                    if (!ret.includes(t)){
-                        ret.push(t);
+            let ret=[this] ;
+            if(this.genericParams && this.genericParams.length){                         
+                this.genericParams.forEach(tp=> tp.composingTypes.forEach(t=>{
+                    if(!ret.includes(t)){
+                        ret.push(t)
                     }
                 }) );
             }
             return ret;
         }
     }
+
 
   peg$result = peg$startRuleFunction();
 
@@ -636,12 +638,12 @@ function peg$parse(input, options) {
       peg$maxFailPos < input.length ? input.charAt(peg$maxFailPos) : null,
       peg$maxFailPos < input.length
         ? peg$computeLocation(peg$maxFailPos, peg$maxFailPos + 1)
-        : peg$computeLocation(peg$maxFailPos, peg$maxFailPos),
+        : peg$computeLocation(peg$maxFailPos, peg$maxFailPos)
     );
   }
 }
 
 module.exports = {
   SyntaxError: peg$SyntaxError,
-  parse:       peg$parse,
+  parse:       peg$parse
 };
