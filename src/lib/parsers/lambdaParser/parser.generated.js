@@ -55,7 +55,7 @@ peg$SyntaxError.buildMessage = function(expected, found) {
 
         other: function(expectation) {
           return expectation.description;
-        },
+        }
       };
 
   function hex(ch) {
@@ -64,28 +64,28 @@ peg$SyntaxError.buildMessage = function(expected, found) {
 
   function literalEscape(s) {
     return s
-      .replace(/\\/g, "\\\\")
+      .replace(/\\/g, '\\\\')
       .replace(/"/g,  '\\"')
-      .replace(/\0/g, "\\0")
-      .replace(/\t/g, "\\t")
-      .replace(/\n/g, "\\n")
-      .replace(/\r/g, "\\r")
-      .replace(/[\x00-\x0F]/g,          function(ch) { return "\\x0" + hex(ch); })
-      .replace(/[\x10-\x1F\x7F-\x9F]/g, function(ch) { return "\\x"  + hex(ch); });
+      .replace(/\0/g, '\\0')
+      .replace(/\t/g, '\\t')
+      .replace(/\n/g, '\\n')
+      .replace(/\r/g, '\\r')
+      .replace(/[\x00-\x0F]/g,          function(ch) { return '\\x0' + hex(ch); })
+      .replace(/[\x10-\x1F\x7F-\x9F]/g, function(ch) { return '\\x'  + hex(ch); });
   }
 
   function classEscape(s) {
     return s
-      .replace(/\\/g, "\\\\")
-      .replace(/\]/g, "\\]")
-      .replace(/\^/g, "\\^")
-      .replace(/-/g,  "\\-")
-      .replace(/\0/g, "\\0")
-      .replace(/\t/g, "\\t")
-      .replace(/\n/g, "\\n")
-      .replace(/\r/g, "\\r")
-      .replace(/[\x00-\x0F]/g,          function(ch) { return "\\x0" + hex(ch); })
-      .replace(/[\x10-\x1F\x7F-\x9F]/g, function(ch) { return "\\x"  + hex(ch); });
+      .replace(/\\/g, '\\\\')
+      .replace(/\]/g, '\\]')
+      .replace(/\^/g, '\\^')
+      .replace(/-/g,  '\\-')
+      .replace(/\0/g, '\\0')
+      .replace(/\t/g, '\\t')
+      .replace(/\n/g, '\\n')
+      .replace(/\r/g, '\\r')
+      .replace(/[\x00-\x0F]/g,          function(ch) { return '\\x0' + hex(ch); })
+      .replace(/[\x10-\x1F\x7F-\x9F]/g, function(ch) { return '\\x'  + hex(ch); });
   }
 
   function describeExpectation(expectation) {
@@ -144,30 +144,30 @@ function peg$parse(input, options) {
       peg$c0 = "=>",
       peg$c1 = peg$literalExpectation("=>", false),
       peg$c2 = function(args, body) {
-          return{
-              arguments: args,
-              body: body,
-          };
+      	return{
+          	arguments:args,
+              body:body
+          }
       },
-      peg$c3 = function(arg) { return [arg]; },
+      peg$c3 = function(arg) { return [arg]},
       peg$c4 = "(",
       peg$c5 = peg$literalExpectation("(", false),
       peg$c6 = ")",
       peg$c7 = peg$literalExpectation(")", false),
       peg$c8 = function(arg, args) {
-          return [...arg, ...args];
+      	return [...arg,...args];
       },
       peg$c9 = ",",
       peg$c10 = peg$literalExpectation(",", false),
       peg$c11 = function(arg) {
-          return arg;
+      	return arg;
       },
       peg$c12 = /^[_$a-zA-Z\xA0-\uFFFF]/,
       peg$c13 = peg$classExpectation(["_", "$", ["a", "z"], ["A", "Z"], ["\xA0", "\uFFFF"]], false, false),
       peg$c14 = /^[_$a-zA-Z0-9\xA0-\uFFFF]/,
       peg$c15 = peg$classExpectation(["_", "$", ["a", "z"], ["A", "Z"], ["0", "9"], ["\xA0", "\uFFFF"]], false, false),
       peg$c16 = function() {
-          return text();
+      	return text()
       },
       peg$c17 = peg$anyExpectation(),
       peg$c18 = /^[" ""\t"]/,
@@ -199,17 +199,17 @@ function peg$parse(input, options) {
   }
 
   function expected(description, location) {
-    location = location !== void 0 ? location : peg$computeLocation(peg$savedPos, peg$currPos);
+    location = location !== void 0 ? location : peg$computeLocation(peg$savedPos, peg$currPos)
 
     throw peg$buildStructuredError(
       [peg$otherExpectation(description)],
       input.substring(peg$savedPos, peg$currPos),
-      location,
+      location
     );
   }
 
   function error(message, location) {
-    location = location !== void 0 ? location : peg$computeLocation(peg$savedPos, peg$currPos);
+    location = location !== void 0 ? location : peg$computeLocation(peg$savedPos, peg$currPos)
 
     throw peg$buildSimpleError(message, location);
   }
@@ -248,7 +248,7 @@ function peg$parse(input, options) {
       details = peg$posDetailsCache[p];
       details = {
         line:   details.line,
-        column: details.column,
+        column: details.column
       };
 
       while (p < pos) {
@@ -275,13 +275,13 @@ function peg$parse(input, options) {
       start: {
         offset: startPos,
         line:   startPosDetails.line,
-        column: startPosDetails.column,
+        column: startPosDetails.column
       },
       end: {
         offset: endPos,
         line:   endPosDetails.line,
-        column: endPosDetails.column,
-      },
+        column: endPosDetails.column
+      }
     };
   }
 
@@ -305,7 +305,7 @@ function peg$parse(input, options) {
       peg$SyntaxError.buildMessage(expected, found),
       expected,
       found,
-      location,
+      location
     );
   }
 
@@ -607,12 +607,12 @@ function peg$parse(input, options) {
       peg$maxFailPos < input.length ? input.charAt(peg$maxFailPos) : null,
       peg$maxFailPos < input.length
         ? peg$computeLocation(peg$maxFailPos, peg$maxFailPos + 1)
-        : peg$computeLocation(peg$maxFailPos, peg$maxFailPos),
+        : peg$computeLocation(peg$maxFailPos, peg$maxFailPos)
     );
   }
 }
 
 module.exports = {
   SyntaxError: peg$SyntaxError,
-  parse:       peg$parse,
+  parse:       peg$parse
 };
