@@ -19,7 +19,7 @@ export interface IRenderer{
     render(stream: fs.WriteStream, obj: any);
 }
 
-export type StringConsumer = (s:string) => void;
+export type StringConsumer = (s: string) => void;
 export type StreamOrStringConsumer = fs.WriteStream | StringConsumer;
 
 export abstract class AbstractRenderer<T> implements IRenderer {
