@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const fs = require("fs");
 const handlebars = require("handlebars");
 const fsUtil_1 = require("../utils/fsUtil");
 const helpers_1 = require("./helpers");
@@ -40,10 +41,18 @@ class AbstractRenderer {
             }
             try {
                 const compiled = this.compliedTemplate(this.getRenderContext(obj));
-                stream.write(compiled);
+                if (stream instanceof fs.WriteStream) {
+                    stream.write(compiled);
+                }
+                else {
+                    stream(compiled);
+                }
             }
             catch (e) {
-                throw new Error(`Error compiling ${stream.path} : obj "${obj} \n ${e}`);
+                if (stream instanceof fs.WriteStream) {
+                    throw new Error(`Error compiling ${stream.path} : obj "${obj} \n ${e}`);
+                }
+                throw e;
             }
         });
     }
