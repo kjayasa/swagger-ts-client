@@ -49,6 +49,15 @@ export class TypeBuilder{
     public getAllTypes(): IType[] {
         return [...this.typeCache.values()];
     }
+
+    public findType(name: string): IType | undefined {
+        return this.getAllTypes()
+            .find((t) => t.swaggerTypeName === name);
+    }
+
+    public findProp(type: IType, propName: string): IProperty | undefined {
+        return type.properties.find((p) => p.propertyName === propName);
+    }
     private buildTypeCache(){
         logger.info("Building Types..");
         Object.keys(this.definition).forEach((swaggerTypeName) => {
@@ -87,8 +96,8 @@ export class TypeBuilder{
                 type.addProperty(propertyName, typeName, required.indexOf(propertyName) != -1, prop.enum);
             }
         }
-        this.collectInterfaces(swaggerType).forEach(i =>
-            type.addInterface(i)
+        this.collectInterfaces(swaggerType).forEach((i) =>
+            type.addInterface(i),
         );
         return type;
     }
@@ -99,11 +108,11 @@ export class TypeBuilder{
         }
         if (swaggerType.allOf) {
             let res = {};
-            swaggerType.allOf.forEach(st => {
+            swaggerType.allOf.forEach((st) => {
                 res = {
                     ...res,
-                    ...this.collectProperties(st)
-                }
+                    ...this.collectProperties(st),
+                };
             });
             return res;
         }
@@ -116,20 +125,11 @@ export class TypeBuilder{
         }
         if (swaggerType.allOf) {
             let res = [];
-            swaggerType.allOf.forEach(s =>
-                res = res.concat(this.collectInterfaces(s))
+            swaggerType.allOf.forEach((s) =>
+                res = res.concat(this.collectInterfaces(s)),
             );
             return res;
         }
         return [];
-    }
-
-    public findType(name: string): IType | undefined {
-        return this.getAllTypes()
-            .find(t => t.swaggerTypeName === name);
-    }
-
-    public findProp(type: IType, propName: string): IProperty | undefined {
-        return type.properties.find(p => p.propertyName === propName)
     }
 }

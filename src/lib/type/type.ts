@@ -19,7 +19,7 @@ export class Type  implements IType{
         if (this.interfaces.length === 0) {
             return "";
         }
-        return `extends ${this.interfaces.join(",")}`
+        return `extends ${this.interfaces.join(",")}`;
     }
 
     get isGeneric(): boolean{
