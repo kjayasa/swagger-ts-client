@@ -15,6 +15,13 @@ export class Type  implements IType{
         return this.typeNameInfo.typeName;
     }
 
+    get extendsClause(): string {
+        if (this.interfaces.length === 0) {
+            return "";
+        }
+        return `extends ${this.interfaces.join(",")}`
+    }
+
     get isGeneric(): boolean{
         return this.typeNameInfo.isGeneric;
     }

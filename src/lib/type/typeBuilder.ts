@@ -13,6 +13,7 @@ export interface IType{
     readonly typeName: string;
     readonly swaggerTypeName: string;
     readonly properties?: IProperty[];
+    readonly interfaces?: string[];
 }
 export interface IProperty{
     propertyName: string;
@@ -86,6 +87,9 @@ export class TypeBuilder{
                 type.addProperty(propertyName, typeName, required.indexOf(propertyName) != -1, prop.enum);
             }
         }
+        this.collectInterfaces(swaggerType).forEach(i =>
+            type.addInterface(i)
+        );
         return type;
     }
 
@@ -106,4 +110,26 @@ export class TypeBuilder{
         return {};
     }
 
+    private collectInterfaces(swaggerType: Swagger.Schema): string[] {
+        if (swaggerType.$ref) {
+            return [ swaggerType.$ref.substring("#/definitions/".length) ];
+        }
+        if (swaggerType.allOf) {
+            let res = [];
+            swaggerType.allOf.forEach(s =>
+                res = res.concat(this.collectInterfaces(s))
+            );
+            return res;
+        }
+        return [];
+    }
+
+    public findType(name: string): IType | undefined {
+        return this.getAllTypes()
+            .find(t => t.swaggerTypeName === name);
+    }
+
+    public findProp(type: IType, propName: string): IProperty | undefined {
+        return type.properties.find(p => p.propertyName === propName)
+    }
 }
