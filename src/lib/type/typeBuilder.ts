@@ -101,40 +101,34 @@ export class TypeBuilder{
        // let fullTypeName=this.splitGeneric(swaggerTypeName);
         const type = new Type(swaggerTypeName, swaggerType);
 
-        const properties = this.collectProperties(swaggerType);
-        const required = swaggerType.required || [];
-        for (const propertyName in properties) {
-            if (properties.hasOwnProperty(propertyName)) {
-                const prop = properties[propertyName];
-                let typeName = TypeNameInfo.getTypeNameInfoFromSchema(prop);
-                if (typeName.isInlineType){
-                    typeName = TypeNameInfo.fromSwaggerTypeName(type.typeNameInfo.partialTypeName + changeCase.pascalCase(propertyName));
-                    this.inlineTypes.set(typeName.fullTypeName, prop);
-                 }
-                type.addProperty(propertyName, typeName, required.indexOf(propertyName) != -1, prop.enum);
-            }
-        }
+        this.collectProperties(type, swaggerType);
         this.collectInterfaces(swaggerType).forEach((i) =>
             type.addInterface(i),
         );
         return type;
     }
 
-    private collectProperties(swaggerType: Swagger.Schema): {[propertyName: string]: Swagger.Schema}  {
+    private collectProperties(type: Type, swaggerType: Swagger.Schema) {
         if (swaggerType.properties) {
-            return swaggerType.properties;
+            const required = swaggerType.required || [];
+            const properties = swaggerType.properties;
+            for (const propertyName in properties) {
+                if (properties.hasOwnProperty(propertyName)) {
+                    const prop = properties[propertyName];
+                    let typeName = TypeNameInfo.getTypeNameInfoFromSchema(prop);
+                    if (typeName.isInlineType){
+                        typeName = TypeNameInfo.fromSwaggerTypeName(type.typeNameInfo.partialTypeName + changeCase.pascalCase(propertyName));
+                        this.inlineTypes.set(typeName.fullTypeName, prop);
+                    }
+                    type.addProperty(propertyName, typeName, required.indexOf(propertyName) != -1, prop.enum);
+                }
+            }
+            return;
+        } else if (swaggerType.allOf) {
+            swaggerType.allOf.forEach((st) =>
+                this.collectProperties(type, st)
+            );
         }
-        if (swaggerType.allOf) {
-            let res = {};
-            swaggerType.allOf.forEach((st) => {
-                res = {
-                    ...res,
-                    ...this.collectProperties(st),
-                };
-            });
-            return res;
-        }
-        return {};
     }
 
     private collectInterfaces(swaggerType: Swagger.Schema): string[] {

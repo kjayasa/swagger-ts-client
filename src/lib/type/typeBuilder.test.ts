@@ -153,8 +153,12 @@ const swagger: Swagger.Spec  = {
                 $ref : "#/definitions/BaseDto",
             },        {
                 type : "object",
+                required: [ "sub1Prop1" ],
                 properties : {
-                    sub1Prop : {
+                    sub1Prop1 : {
+                        type : "string",
+                    },
+                    sub1Prop2: {
                         type : "string",
                     },
                 },
@@ -203,10 +207,14 @@ test("base class should have its own fields and discriminator", () => {
 test("subclass should have all props, and extend base class", () => {
     const sub1 = b.findType("Sub1");
     expect(sub1).toBeDefined();
-    const sub1Prop = b.findProp(sub1, "sub1Prop");
-    expect(sub1Prop).toBeDefined();
-    expect(sub1Prop.required).toBe("?");
-    expect(sub1Prop.typeName).toBe("string");
+    const sub1Prop1 = b.findProp(sub1, "sub1Prop1");
+    expect(sub1Prop1).toBeDefined();
+    expect(sub1Prop1.required).toBe("");
+    expect(sub1Prop1.typeName).toBe("string");
+    const sub1Prop2 = b.findProp(sub1, "sub1Prop2");
+    expect(sub1Prop2).toBeDefined();
+    expect(sub1Prop2.required).toBe("?");
+    expect(sub1Prop2.typeName).toBe("string");
     const typeProp = b.findProp(sub1, "type");
     expect(typeProp).toBeDefined();
     expect(typeProp.required).toBe("");
@@ -215,7 +223,7 @@ test("subclass should have all props, and extend base class", () => {
     expect(propProp).toBeDefined();
     expect(propProp.required).toBe("?");
     expect(propProp.typeName).toBe("string");
-    expect(sub1.properties.length).toBe(3);
+    expect(sub1.properties.length).toBe(4);
     expect(sub1.interfaces.length).toBe(1);
     expect(sub1.interfaces[0]).toBe("BaseDto");
 });
