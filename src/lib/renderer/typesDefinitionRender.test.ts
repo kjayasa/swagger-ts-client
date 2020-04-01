@@ -214,5 +214,7 @@ test("Sub1", (done) =>
 
     export interface Sub1 extends BaseDto {
         sub1Prop? : string
+        type? : string
+        prop? : string
     }
 `));
