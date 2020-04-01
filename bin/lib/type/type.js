@@ -2,12 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeNameInfo_1 = require("./typeNameInfo");
 class Type {
-    constructor(swaggerTypeName) {
+    constructor(swaggerTypeName, swaggerType) {
         this.swaggerTypeName = swaggerTypeName;
         this.properties = [];
         this.interfaces = [];
         this.extendsClause = "";
         this.typeNameInfo = typeNameInfo_1.TypeNameInfo.fromSwaggerTypeName(swaggerTypeName);
+        this.discriminator = swaggerType.discriminator;
     }
     get typeName() {
         return this.typeNameInfo.typeName;
