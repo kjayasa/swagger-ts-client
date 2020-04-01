@@ -15,6 +15,7 @@ export interface IType{
     readonly properties?: IProperty[];
     readonly interfaces?: string[];
     readonly extendsClause: string;
+    readonly discriminator?: string;
 }
 export interface IProperty{
     propertyName: string;
@@ -82,7 +83,7 @@ export class TypeBuilder{
     }
     private  buildType(swaggerTypeName: string, swaggerType: Swagger.Schema): IType {
        // let fullTypeName=this.splitGeneric(swaggerTypeName);
-        const type = new Type(swaggerTypeName);
+        const type = new Type(swaggerTypeName, swaggerType);
 
         const properties = this.collectProperties(swaggerType);
         const required = swaggerType.required || [];

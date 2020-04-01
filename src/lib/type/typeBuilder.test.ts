@@ -184,7 +184,7 @@ test("type builder should have all types", () => {
 
 });
 
-test("base class should have its own fields and discriminant", () => {
+test("base class should have its own fields and discriminator", () => {
    const baseDto = b.findType("BaseDto");
    expect(baseDto).toBeDefined();
    const typeProp = b.findProp(baseDto, "type");
@@ -197,6 +197,7 @@ test("base class should have its own fields and discriminant", () => {
    expect(propProp.typeName).toBe("string");
    expect(baseDto.properties.length).toBe(2);
    expect(baseDto.interfaces.length).toBe(0);
+   expect(baseDto.discriminator).toBe("type");
 });
 
 test("subclass should have its own props, and extend base class", () => {
