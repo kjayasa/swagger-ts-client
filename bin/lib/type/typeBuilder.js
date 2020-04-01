@@ -46,6 +46,22 @@ class TypeBuilder {
         this.inlineTypes.forEach((schema, swaggerTypeName) => {
             this.typeCache.set(swaggerTypeName, this.buildType(swaggerTypeName, schema));
         });
+        // post-process to add derived props
+        this.typeCache.forEach((type, name) => {
+            if (type.interfaces) {
+                type.interfaces.forEach(intf => {
+                    const it = this.typeCache.get(intf);
+                    if (!it) {
+                        throw "interface not found in cache " + intf;
+                    }
+                    if (it.properties) {
+                        it.properties.forEach(prop => {
+                            type.properties.push(prop);
+                        });
+                    }
+                });
+            }
+        });
     }
     buildTypeFromDefinetion(swaggerTypeName) {
         const swaggerType = this.definition[swaggerTypeName];
