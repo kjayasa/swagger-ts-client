@@ -200,14 +200,22 @@ test("base class should have its own fields and discriminator", () => {
    expect(baseDto.discriminator).toBe("type");
 });
 
-test("subclass should have its own props, and extend base class", () => {
+test("subclass should have all props, and extend base class", () => {
     const sub1 = b.findType("Sub1");
     expect(sub1).toBeDefined();
     const sub1Prop = b.findProp(sub1, "sub1Prop");
     expect(sub1Prop).toBeDefined();
     expect(sub1Prop.required).toBe("?");
     expect(sub1Prop.typeName).toBe("string");
-    expect(sub1.properties.length).toBe(1);
+    const typeProp = b.findProp(sub1, "type");
+    expect(typeProp).toBeDefined();
+    expect(typeProp.required).toBe("");
+    expect(typeProp.typeName).toBe("string");
+    const propProp = b.findProp(sub1, "prop");
+    expect(propProp).toBeDefined();
+    expect(propProp.required).toBe("?");
+    expect(propProp.typeName).toBe("string");
+    expect(sub1.properties.length).toBe(3);
     expect(sub1.interfaces.length).toBe(1);
     expect(sub1.interfaces[0]).toBe("BaseDto");
 });
