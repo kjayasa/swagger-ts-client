@@ -53,7 +53,7 @@ class TypeBuilder {
     }
     buildType(swaggerTypeName, swaggerType) {
         // let fullTypeName=this.splitGeneric(swaggerTypeName);
-        const type = new type_1.Type(swaggerTypeName);
+        const type = new type_1.Type(swaggerTypeName, swaggerType);
         const properties = this.collectProperties(swaggerType);
         const required = swaggerType.required || [];
         for (const propertyName in properties) {
