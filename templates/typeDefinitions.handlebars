@@ -8,7 +8,7 @@
 {{/if}}
 
 {{#each types}}
-    export {{../generatedTypes}} {{typeName}}  {
+    export {{../generatedTypes}} {{typeName}} {{extendsClause}} {
     {{#each properties}}
         {{propertyName}}{{../../membersOptional}} : {{typeName}}
     {{/each}}

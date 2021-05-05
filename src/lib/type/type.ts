@@ -1,13 +1,18 @@
 import {IProperty, ISwaggerDefinition, IType} from "./typeBuilder";
 import {TypeNameInfo} from "./typeNameInfo";
+import {Schema} from "swagger-schema-official";
 
 export class Type  implements IType{
 
     public properties: IProperty[] = [];
     public typeNameInfo: TypeNameInfo;
+    public interfaces: string[] = [];
+    public extendsClause: string = "";
+    public discriminator?: string;
 
-    constructor(public swaggerTypeName: string){
+    constructor(public swaggerTypeName: string, swaggerType: Schema){
         this.typeNameInfo = TypeNameInfo.fromSwaggerTypeName(swaggerTypeName);
+        this.discriminator = swaggerType.discriminator;
     }
 
     get typeName(): string {
@@ -34,5 +39,10 @@ export class Type  implements IType{
                 enumValue,
             },
         );
+    }
+
+    public addInterface(interfaceName: string) {
+        this.interfaces.push(interfaceName);
+        this.extendsClause = `extends ${this.interfaces.join(",")}`;
     }
 }

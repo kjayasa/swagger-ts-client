@@ -13,6 +13,9 @@ export interface IType{
     readonly typeName: string;
     readonly swaggerTypeName: string;
     readonly properties?: IProperty[];
+    readonly interfaces?: string[];
+    readonly extendsClause: string;
+    readonly discriminator?: string;
 }
 export interface IProperty{
     propertyName: string;
@@ -48,6 +51,15 @@ export class TypeBuilder{
     public getAllTypes(): IType[] {
         return [...this.typeCache.values()];
     }
+
+    public findType(name: string): IType | undefined {
+        return this.getAllTypes()
+            .find((t) => t.swaggerTypeName === name);
+    }
+
+    public findProp(type: IType, propName: string): IProperty | undefined {
+        return type.properties.find((p) => p.propertyName === propName);
+    }
     private buildTypeCache(){
         logger.info("Building Types..");
         Object.keys(this.definition).forEach((swaggerTypeName) => {
@@ -62,6 +74,22 @@ export class TypeBuilder{
             this.typeCache.set(swaggerTypeName, this.buildType(swaggerTypeName, schema));
         });
 
+        // post-process to add derived props
+        this.typeCache.forEach((type, name) => {
+            if (type.interfaces) {
+                type.interfaces.forEach(intf => {
+                    const it = this.typeCache.get(intf);
+                    if (!it) {
+                        throw "interface not found in cache " + intf;
+                    }
+                    if (it.properties) {
+                        it.properties.forEach(prop => {
+                            type.properties.push(prop);
+                        })
+                    }
+                })
+            }
+        });
     }
     private  buildTypeFromDefinetion(swaggerTypeName: string): IType {
 
@@ -71,22 +99,49 @@ export class TypeBuilder{
     }
     private  buildType(swaggerTypeName: string, swaggerType: Swagger.Schema): IType {
        // let fullTypeName=this.splitGeneric(swaggerTypeName);
-        const type = new Type(swaggerTypeName);
+        const type = new Type(swaggerTypeName, swaggerType);
 
-        const properties = swaggerType.properties;
-        const required = swaggerType.required || [];
-        for (const propertyName in properties) {
-            if (properties.hasOwnProperty(propertyName)) {
-                const prop = properties[propertyName];
-                let typeName = TypeNameInfo.getTypeNameInfoFromSchema(prop);
-                if (typeName.isInlineType){
-                    typeName = TypeNameInfo.fromSwaggerTypeName(type.typeNameInfo.partialTypeName + changeCase.pascalCase(propertyName));
-                    this.inlineTypes.set(typeName.fullTypeName, prop);
-                 }
-                type.addProperty(propertyName, typeName, required.indexOf(propertyName) != -1, prop.enum);
-            }
-        }
+        this.collectProperties(type, swaggerType);
+        this.collectInterfaces(swaggerType).forEach((i) =>
+            type.addInterface(i),
+        );
         return type;
     }
 
+    private collectProperties(type: Type, swaggerType: Swagger.Schema) {
+        if (swaggerType.properties) {
+            const required = swaggerType.required || [];
+            const properties = swaggerType.properties;
+            for (const propertyName in properties) {
+                if (properties.hasOwnProperty(propertyName)) {
+                    const prop = properties[propertyName];
+                    let typeName = TypeNameInfo.getTypeNameInfoFromSchema(prop);
+                    if (typeName.isInlineType){
+                        typeName = TypeNameInfo.fromSwaggerTypeName(type.typeNameInfo.partialTypeName + changeCase.pascalCase(propertyName));
+                        this.inlineTypes.set(typeName.fullTypeName, prop);
+                    }
+                    type.addProperty(propertyName, typeName, required.indexOf(propertyName) != -1, prop.enum);
+                }
+            }
+            return;
+        } else if (swaggerType.allOf) {
+            swaggerType.allOf.forEach((st) =>
+                this.collectProperties(type, st)
+            );
+        }
+    }
+
+    private collectInterfaces(swaggerType: Swagger.Schema): string[] {
+        if (swaggerType.$ref) {
+            return [ swaggerType.$ref.substring("#/definitions/".length) ];
+        }
+        if (swaggerType.allOf) {
+            let res = [];
+            swaggerType.allOf.forEach((s) =>
+                res = res.concat(this.collectInterfaces(s)),
+            );
+            return res;
+        }
+        return [];
+    }
 }
