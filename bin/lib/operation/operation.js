@@ -42,6 +42,7 @@ class Operation {
             inBody: param.in === "body",
             inPath: param.in === "path",
             inQuery: param.in === "query",
+            isRequired: param.required,
         };
     }
     addImportedType(typename) {
